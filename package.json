@@ -1,21 +1,22 @@
 {
-  "name": "uw-editor",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@unfoldingword/editor",
+  "description": "A React Component Library for editing PERF.",
+  "version": "1.0.0",
+  "homepage": "https://x.netlify.app/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/x/x"
+  },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "@xelah/core-type-perf-html": "^1.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "yarn && styleguidist server",
+    "build-dev": "../../node_modules/.bin/styleguidist build",
+    "build": "babel src --out-dir build && cp ./src/components/*.css ./build/components",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "prepublishOnly": "rm -fr ./build && nx build"
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +35,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "main": "build/index.js",
+  "files": [
+    "build"
+  ]
 }
