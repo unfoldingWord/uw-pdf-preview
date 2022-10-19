@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Accordion } from '@mui/material';
 
-export default function Section({ children, index, show, dir, verbose, ...props }) {
+export default function Section({ children, index, show, dir, ...props }) {
 
   return (
     <Accordion
