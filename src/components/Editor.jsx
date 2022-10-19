@@ -1,6 +1,8 @@
-import {useState, useEffect} from "react"
+import React, { useState, useEffect } from 'react'
+import { useDeepCompareCallback, useDeepCompareEffect } from "use-deep-compare";
+import isEqual from 'lodash.isequal';
+
 import { Skeleton, Stack } from "@mui/material";
-import usePkQuery from "../hooks/usePkQuery";
 import useEditorState from "../hooks/useEditorState";
 import Section from "./Section";
 import SectionHeading from "./SectionHeading";
@@ -10,15 +12,49 @@ import { HtmlPerfEditor } from "@xelah/type-perf-html";
 import "@xelah/type-perf-html/build/components/HtmlSequenceEditor.css";
 
 export default function Editor( props) {
-  const { data, proskomma, owner, languageId } = props;
+  const { onSave, epiteletePerfHtml, bookId, verbose } = props;
   const [graftSequenceId, setGraftSequenceId] = useState();
 
+  // const [isSaving, startSaving] = useTransition();
+  const [htmlPerf, setHtmlPerf] = useState();
 
-  const onHtmlPerf = (_htmlPerf) => {
-    console.log('htmlPerf changed!', {_htmlPerf});
-    setHtmlPerf(_htmlPerf);
+  const bookCode = bookId.toUpperCase()
+
+  useDeepCompareEffect(() => {
+    if (epiteletePerfHtml) {
+      //        epiteletePerfHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
+      epiteletePerfHtml.readHtml(bookCode).then((_htmlPerf) => {
+        setHtmlPerf(_htmlPerf);
+      });
+    }
+  }, [epiteletePerfHtml, bookCode]);
+
+  const onHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId, htmlSequence }) => {
+    const perfChanged = !isEqual(htmlPerf, _htmlPerf);
+    if (perfChanged) setHtmlPerf(_htmlPerf);
+
+    const saveNow = async () => {
+      const newHtmlPerf = await epiteletePerfHtml.writeHtml( bookCode, sequenceId, _htmlPerf );
+      if (verbose) console.log({ info: "Saved sequenceId", bookCode, sequenceId });
+
+      const perfChanged = !isEqual(htmlPerf, newHtmlPerf);
+      if (perfChanged) setHtmlPerf(newHtmlPerf);
+    };
+    saveNow()
+  }, [htmlPerf, bookCode]);
+
+  const undo = async () => {
+    const newPerfHtml = await epiteletePerfHtml.undoHtml(bookCode);
+    setHtmlPerf(newPerfHtml);
   };
 
+  const redo = async () => {
+    const newPerfHtml = await epiteletePerfHtml.redoHtml(bookCode);
+    setHtmlPerf(newPerfHtml);
+  };
+
+  const canUndo = epiteletePerfHtml.canUndo(bookCode);
+  const canRedo = epiteletePerfHtml.canRedo(bookCode);
 
   const handlers = {
     onBlockClick: ({ content: _content, element }) => {
@@ -30,57 +66,36 @@ export default function Editor( props) {
     },
   };
 
-
-  const ready = Boolean( (data?.bookId && data?.bookId) || false )
-
-  const { state: { bookCode,
-    htmlPerf,
-    canUndo,
-    canRedo,
-    isSaving, }, actions: {
-    saveHtmlPerf,
-    undo,
-    redo} } = usePkQuery({
-    proskomma,
-    ready,
-    type: data?.type,
-    bookId: data?.bookId,
-    chapter: 1,
-    owner,
-    languageId,
-  })
-
   const {
     state: {
       sectionable,
       blockable,
       editable,
       preview,
-      verbose,
     },
     actions: {
       setSectionable,
       setBlockable,
       setEditable,
       setPreview,
-      setToggles,
       setSequenceIds,
       addSequenceId,
       setSequenceId,
     },
   } = useEditorState({sequenceIds: [htmlPerf?.mainSequenceId], ...props});
 
-  const sequenceIds = [htmlPerf?.mainSequenceId];
+  let sequenceIds
+  sequenceIds = [htmlPerf?.mainSequenceId]
   const sequenceId = htmlPerf?.mainSequenceId;
 
-  const style = (isSaving  || !sequenceId) ? { cursor: 'progress' } : {};
+  const style = (/*isSaving  ||*/ !sequenceId) ? { cursor: 'progress' } : {};
 
   useEffect(() =>{
     if( htmlPerf && ! sequenceIds ) {
-       setSequenceIds([htmlPerf.mainSequenceId])
-       setSequenceId(htmlPerf.mainSequenceId)
+      setSequenceIds([htmlPerf.mainSequenceId])
+      setSequenceId(htmlPerf.mainSequenceId)
     }
-    }, [htmlPerf, sequenceIds, setSequenceId, setSequenceIds]
+  }, [htmlPerf, sequenceIds, setSequenceId, setSequenceIds]
   )
 
   const skeleton = (
@@ -100,7 +115,7 @@ export default function Editor( props) {
   };
   const htmlEditorProps = {
     htmlPerf,
-    onHtmlPerf: saveHtmlPerf,
+    onHtmlPerf,
     sequenceIds,
     addSequenceId,
     components: {
@@ -132,6 +147,9 @@ export default function Editor( props) {
       <button style={(blockable ? {borderStyle: 'inset'} : {})} onClick={onBlockable}>Blockable</button>
       <button style={(editable ? {borderStyle: 'inset'} : {})} onClick={onEditable}>Editable</button>
       <button style={(preview ? {borderStyle: 'inset'} : {})} onClick={onPreview}>Preview</button>
+      <button style={(canUndo ? {borderStyle: 'inset'} : {})} onClick={undo}>Undo</button>
+      <button style={(canRedo ? {borderStyle: 'inset'} : {})} onClick={redo}>Redo</button>
+      <button  onClick={onSave}>Save</button>
     </div>
   );
 

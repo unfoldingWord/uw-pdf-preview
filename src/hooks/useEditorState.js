@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 
 export default function useEditorState(props) {
   const initialState = {
-    title: "Gateway Translation",
     sequenceId: null,
     sequenceIds: [],
     sectionable: true,
     blockable: true,
     editable: true,
     preview: false,
-    verbose: false,
     ...props
   };
 
@@ -71,5 +69,4 @@ useEditorState.propTypes = {
   blockable: PropTypes.bool,
   editable: PropTypes.bool,
   preview: PropTypes.bool,
-  verbose: PropTypes.bool,
 };

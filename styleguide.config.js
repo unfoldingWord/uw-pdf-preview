@@ -19,6 +19,8 @@ module.exports = {
     text: 'View on GitHub',
   },
   dangerouslyUpdateWebpackConfig(config) {
+    config.resolve.fallback = { "crypto": require.resolve("crypto-browserify"), fs: false };
+
     config.module.rules.push({
       test: /.\.md$/,
       type: "javascript/auto"

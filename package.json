@@ -1,20 +1,55 @@
 {
   "name": "@unfoldingword/editor",
   "description": "A React Component Library for editing PERF.",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "homepage": "https://x.netlify.app/",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/x/x"
   },
+  "private": false,
   "dependencies": {
-    "@xelah/core-type-perf-html": "^1.0.0"
+    "@xelah/type-perf-html": "^1.0.0",
+    "styled-components": "^5.2.1",
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
+    "@babel/plugin-syntax-logical-assignment-operators": "^7.10.4",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/preset-react": "^7.12.10",
+    "@babel/runtime": "7.13.8",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.1.5",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-test-selectors": "^2.0.3",
+    "prettier": "^2.5.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^5.0.1",
+    "react-styleguidist": "^11.2.0",
+    "@mui/material": "^5.8.7",
+    "@mui/styles": "^5.8.7",
+    "proskomma-react-hooks": "^2.4.0",
+    "epitelete-perf-html": "^0.2.6",
+    "crypto-browserify": "^3.12.0"
   },
   "scripts": {
-    "start": "yarn && styleguidist server",
-    "build-dev": "../../node_modules/.bin/styleguidist build",
-    "build": "babel src --out-dir build && cp ./src/components/*.css ./build/components",
+    "start": "styleguidist server",
+    "build": "styleguidist build",
     "test": "react-scripts test",
     "prepublishOnly": "rm -fr ./build && nx build"
   },
@@ -38,10 +73,20 @@
   },
   "peerDependencies": {
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "@mui/material": "^5.x",
+    "@mui/styles": "^5.x"
   },
   "main": "build/index.js",
   "files": [
     "build"
-  ]
+  ],
+  "resolutions": {
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  }
 }
