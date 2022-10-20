@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Accordion } from '@mui/material';
 
-export default function Section({ children, index, show, dir, ...props }) {
+export default function Section({ children, show, dir, ...props }) {
 
   return (
     <Accordion
@@ -15,3 +16,9 @@ export default function Section({ children, index, show, dir, ...props }) {
     </Accordion>
   );
 };
+
+Section.propTypes = {
+  children: PropTypes.node,
+  show: PropTypes.bool,
+  dir: PropTypes.string,
+}

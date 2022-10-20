@@ -1,5 +1,5 @@
 {
-  "name": "@unfoldingword/uw-editor",
+  "name": "uw-editor",
   "description": "A React Component Library for editing PERF.",
   "version": "0.1.0",
   "homepage": "https://uw-editor.netlify.app/",
@@ -12,9 +12,6 @@
   "dependencies": {
     "@xelah/type-perf-html": "^1.0.0",
     "styled-components": "^5.2.1",
-    "@emotion/is-prop-valid": "^1.2.0",
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
   },
   "devDependencies": {
@@ -54,7 +51,7 @@
     "start": "styleguidist server",
     "build": "styleguidist build",
     "test": "react-scripts test",
-    "prepublishOnly": "rm -fr ./build && nx build"
+    "prepublishOnly": "rm -rf ./dist && babel ./src --out-dir ./dist -s inline"
   },
   "eslintConfig": {
     "extends": [
@@ -80,9 +77,9 @@
     "@mui/material": "^5.x",
     "@mui/styles": "^5.x"
   },
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "files": [
-    "build"
+    "dist"
   ],
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
