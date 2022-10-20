@@ -12,6 +12,9 @@
   "dependencies": {
     "@xelah/type-perf-html": "^1.0.0",
     "styled-components": "^5.2.1",
+    "@emotion/is-prop-valid": "^1.2.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
   },
   "devDependencies": {

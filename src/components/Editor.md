@@ -1,4 +1,4 @@
-# Editor
+# Editor demo 1
 
 The Editor expects input of a EpiteletePerfHtml object.
 
@@ -68,6 +68,69 @@ function Component () {
     </div>
     <div key="2">
       { ready ? <Editor key="2" {...editorPropsLuk} /> : 'Loading...'}
+    </div>
+    </>
+  );
+};  
+
+<Component key="1" />;
+
+```
+
+
+# Editor demo 2
+
+The demo demonstrates using Epitelete in standalone mode (no Proskomma).
+Here is the function for sideloading:
+```txt
+    /**
+     * Loads given perf into memory
+     * @param {string} bookCode
+     * @param {perfDocument} perfDocument - PERF document
+     * @return {Promise<perfDocument>} same sideloaded PERF document
+     */
+    async sideloadPerf(bookCode, perfDocument, options = {}) {
+```
+
+```js
+import { useState, useEffect } from 'react';
+
+import __htmlPerf from '../data/tit.en.ult.perf.json';
+import EpiteletePerfHtml from "epitelete-perf-html";
+
+function Component () {
+  const proskomma = null;
+  const docSetId = 'unfoldingWord/en_ult'
+  const [ready, setReady] = useState(false);
+  const [ep, setEp] = useState(new EpiteletePerfHtml({ proskomma, docSetId, options: { historySize: 100 } }))
+  const verbose = true
+
+  const onSave = (arg) => console.log("save button clicked", arg)
+  
+  useEffect(
+    () => {
+      async function loadPerf() {
+          console.log("Start side load of Titus");
+          const data = await ep.sideloadPerf('TIT', __htmlPerf)
+          console.log("End side load of Titus", data);
+          console.log("Books loaded:", ep.localBookCodes())
+          setReady(true)
+      }
+      if ( ep && !ready ) loadPerf();
+    }, [ep, ready]
+  )
+  
+  const editorProps = {
+    epiteletePerfHtml: ep,
+    bookId: 'TIT',
+    onSave,
+    verbose
+  }
+  
+  return (
+    <>
+    <div key="1">
+      { ready ? <Editor key="1" {...editorProps} /> : 'Loading...'}
     </div>
     </>
   );
