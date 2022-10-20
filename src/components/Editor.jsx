@@ -10,7 +10,7 @@ import SectionHeading from "./SectionHeading";
 import SectionBody from "./SectionBody";
 import { HtmlPerfEditor } from "@xelah/type-perf-html";
 
-import "@xelah/type-perf-html/build/components/HtmlSequenceEditor.css";
+import "./Editor.css";
 
 export default function Editor( props) {
   const { onSave, epiteletePerfHtml, bookId, verbose } = props;
