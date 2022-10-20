@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useDeepCompareMemo } from 'use-deep-compare';
 import { AccordionDetails } from '@mui/material';
 
@@ -18,3 +19,7 @@ export default function SectionBody({ children, show, ...props }) {
 
   return component;
 };
+SectionBody.propTypes = {
+  children: PropTypes.node,
+  show: PropTypes.bool,
+}

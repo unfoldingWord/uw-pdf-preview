@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types';
 import { useDeepCompareCallback, useDeepCompareEffect } from "use-deep-compare";
 import isEqual from 'lodash.isequal';
 
@@ -29,7 +30,7 @@ export default function Editor( props) {
     }
   }, [epiteletePerfHtml, bookCode]);
 
-  const onHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId, htmlSequence }) => {
+  const onHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId }) => {
     const perfChanged = !isEqual(htmlPerf, _htmlPerf);
     if (perfChanged) setHtmlPerf(_htmlPerf);
 
@@ -57,10 +58,8 @@ export default function Editor( props) {
   const canRedo = epiteletePerfHtml.canRedo(bookCode);
 
   const handlers = {
-    onBlockClick: ({ content: _content, element }) => {
+    onBlockClick: ({ element }) => {
       const _sequenceId = element.dataset.target;
-      const { tagName } = element;
-      const isInline = tagName === 'SPAN';
       // if (_sequenceId && !isInline) addSequenceId(_sequenceId);
       if (_sequenceId) setGraftSequenceId(_sequenceId);
     },
@@ -169,4 +168,11 @@ export default function Editor( props) {
       {graftSequenceId ? graftSequenceEditor : '' }
     </div>
   );
+};
+
+Editor.propTypes = {
+  onSave: PropTypes.func,
+  epiteletePerfHtml: PropTypes.instanceOf(HtmlPerfEditor),
+  bookId: PropTypes.string,
+  verbose: PropTypes.bool,
 };
