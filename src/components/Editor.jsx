@@ -6,7 +6,7 @@ import { Skeleton, Stack } from "@mui/material";
 import useEditorState from "../hooks/useEditorState";
 import Section from "./Section";
 import SectionHeading from "./SectionHeading";
-import SectionBody from "./sectionBody";
+import SectionBody from "./SectionBody";
 import { HtmlPerfEditor } from "@xelah/type-perf-html";
 
 import "@xelah/type-perf-html/build/components/HtmlSequenceEditor.css";
