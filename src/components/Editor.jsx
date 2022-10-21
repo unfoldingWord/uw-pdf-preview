@@ -9,8 +9,9 @@ import Section from "./Section";
 import SectionHeading from "./SectionHeading";
 import SectionBody from "./SectionBody";
 import { HtmlPerfEditor } from "@xelah/type-perf-html";
+import EpiteletePerfHtml from "epitelete-perf-html";
 
-import "./Editor.css";
+import styles from "./Editor.module.css";
 
 export default function Editor( props) {
   const { onSave, epiteletePerfHtml, bookId, verbose } = props;
@@ -152,27 +153,26 @@ export default function Editor( props) {
     </div>
   );
 
-  const graftSequenceEditor = (
-    <>
-      <h2>Graft Sequence Editor</h2>
-      <HtmlPerfEditor key="2" {...graftProps} />
-    </>
-  );
+  // const graftSequenceEditor = (
+  //   <>
+  //     <h2>Graft Sequence Editor</h2>
+  //     <HtmlPerfEditor key="2" {...graftProps} />
+  //   </>
+  // );
 
   return (
     <div key="1" className="Editor" style={style}>
       {buttons}
       <h2>Main Sequence Editor</h2>
-      {sequenceId ? <HtmlPerfEditor {...htmlEditorProps} /> : skeleton}
+      {sequenceId && htmlPerf ? <HtmlPerfEditor className={styles.perf}  {...htmlEditorProps} /> : skeleton}
       {buttons}
-      {graftSequenceId ? graftSequenceEditor : '' }
     </div>
   );
 };
 
 Editor.propTypes = {
   onSave: PropTypes.func,
-  epiteletePerfHtml: PropTypes.instanceOf(HtmlPerfEditor),
+  epiteletePerfHtml: PropTypes.instanceOf(EpiteletePerfHtml),
   bookId: PropTypes.string,
   verbose: PropTypes.bool,
 };

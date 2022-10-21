@@ -1,89 +1,89 @@
-.perf #document {
+.perf :global(#document) {
     font-family: Arial, Helvetica, sans-serif;
     margin: 2em 0;
 }
 
-.perf #headers {
+.perf :global(#headers) {
     margin: 2em 0;
 }
 
-.perf .header {
+.perf :global(.header) {
     font-style: italic;
     font-size: 0.8em;
     text-decoration: underline;
     margin: 0.5em;
 }
 
-.perf .header:before {
+.perf :global(.header:before) {
     content: attr(id)':\0000a0';
     font-weight: 900;
     text-decoration: none;
     display: inline-block;
 }
 
-.perf .section {
+.perf :global(.section) {
     width: 100%;
 }
 
-.perf .section .expand {
+.perf :global(.section .expand) {
     text-decoration: underline;
 }
 
-.perf .title,
-.perf .introduction {
+.perf :global(.title),
+.perf :global(.introduction) {
     text-align: center;
 }
 
-.perf .title,
-.perf .paragraph.mt,
-.perf .graft.title,
-.perf div[type="title"] .paragraph {
+.perf :global(.title),
+.perf :global(.paragraph.mt),
+.perf :global(.graft.title),
+.perf :global(div[type="title"] .paragraph) {
     font-weight: 700;
     font-size: 2em;
     margin: 0.5em 0;
 }
 
-.perf .introduction,
-.perf div[type="introduction"] .paragraph {
+.perf :global(.introduction),
+.perf :global(div[type="introduction"] .paragraph) {
     font-size: 1.5em;
     margin: 0.5em 0em;
 }
 
-.perf .heading,
-.perf div[type="heading"] .paragraph {
+.perf :global(.heading),
+.perf :global(div[type="heading"] .paragraph) {
     font-size: 1.2em;
     font-weight: 700;
     text-align: center;
     padding: 0.5em 0.2em 0.25em;
 }
 
-.perf .heading p.s {
+.perf :global(.heading p.s) {
     font-size: 1.2em;
 }
 
-.perf .heading p.r {
+.perf :global(.heading p.r) {
     font-size: 1.1em;
     font-weight: 600;
     padding: 0.25em 0.2em;
 }
 
-.perf .paragraph {
+.perf :global(.paragraph) {
     padding: 0.5em 0.2em;
     margin: 0;
 }
 
-.perf .paragraph span.graft {
+.perf :global(.paragraph span.graft) {
     font-weight: 100;
     font-size: 0.75em;
     vertical-align: super;
     color: blue;
 }
 
-.perf .graft:before {
+.perf :global(.graft:before) {
     content: ' ' attr(data-previewText);
 }
 
-.perf .chapter {
+.perf :global(.chapter) {
     font-size: 2.2em;
     color: initial;
     float: left;
@@ -91,47 +91,47 @@
     line-height: 1.0em;
 }
 
-.perf .rtl .chapter {
+.perf :global(.rtl .chapter) {
     float: right;
 }
 
-.perf .verses {
+.perf :global(.verses) {
     font-size: 0.8em;
     font-weight: 600;
     vertical-align: super;
 }
 
-.perf .q,
-.perf .q2,
-.perf .q3,
-.perf .q4 {
+.perf :global(.q),
+.perf :global(.q2),
+.perf :global(.q3),
+.perf :global(.q4) {
     font-style: italic;
 }
 
-.perf .q {
+.perf :global(.q) {
     padding: 0.1em 1em;
 }
 
-.perf .q2 {
+.perf :global(.q2) {
     padding: 0.1em 2em;
 }
 
-.perf .q3 {
+.perf :global(.q3) {
     padding: 0.1em 3em;
 }
 
-.perf .q4 {
+.perf :global(.q4) {
     padding: 0.1em 4em;
 }
 
-span.verses:after {
+.perf :global(span.verses:after) {
     content: ' ';
 }
 
-.perf .preview span.graft:before {
+.perf :global(.preview span.graft:before) {
     content: ' ✝';
 }
 
-.perf .preview #headers {
+.perf :global(.preview #headers) {
     display: none;
 }

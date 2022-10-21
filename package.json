@@ -10,11 +10,11 @@
   },
   "private": false,
   "dependencies": {
-    "@xelah/type-perf-html": "^1.0.0",
-    "styled-components": "^5.2.1",
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
+    "@xelah/type-perf-html": "^1.0.0"
   },
   "devDependencies": {
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
+    "styled-components": "^5.2.1",
     "@babel/cli": "^7.17.10",
     "@babel/core": "^7.17.10",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
@@ -24,10 +24,15 @@
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "^7.12.10",
     "@babel/runtime": "7.13.8",
+    "@mui/material": "^5.8.7",
+    "@mui/styles": "^5.8.7",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "babel-loader": "^8.2.2",
+    "crypto-browserify": "^3.12.0",
+    "css-loader": "^6.7.1",
+    "epitelete-perf-html": "^0.2.6",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-import": "^2.26.0",
@@ -37,21 +42,20 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-test-selectors": "^2.0.3",
     "prettier": "^2.5.1",
+    "proskomma-react-hooks": "^2.4.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^5.0.1",
     "react-styleguidist": "^11.2.0",
-    "@mui/material": "^5.8.7",
-    "@mui/styles": "^5.8.7",
-    "proskomma-react-hooks": "^2.4.0",
-    "epitelete-perf-html": "^0.2.6",
-    "crypto-browserify": "^3.12.0"
+    "webpack-cli": "^4.10.0"
   },
   "scripts": {
-    "start": "styleguidist server",
-    "build": "styleguidist build",
+    "start": "yarn && npx styleguidist server",
+    "build-dev": "npx styleguidist build",
+    "build": "webpack --mode production --config webpack.prod.js",
+    "watch": "webpack --watch --mode development",
     "test": "react-scripts test",
-    "prepublishOnly": "rm -rf ./dist && babel ./src --out-dir ./dist -s inline"
+    "sections": "node styleguide.sections.js"
   },
   "eslintConfig": {
     "extends": [
@@ -72,14 +76,14 @@
     ]
   },
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "@mui/material": "^5.x",
-    "@mui/styles": "^5.x"
+    "@mui/styles": "^5.x",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "files": [
-    "dist"
+    "src"
   ],
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
