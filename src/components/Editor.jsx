@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import { useDeepCompareCallback, useDeepCompareEffect } from "use-deep-compare";
 import isEqual from 'lodash.isequal';
@@ -29,7 +30,7 @@ export default function Editor( props) {
     }
   }, [epiteletePerfHtml, bookCode]);
 
-  const onHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId, htmlSequence }) => {
+  const onHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId }) => {
     const perfChanged = !isEqual(htmlPerf, _htmlPerf);
     if (perfChanged) setHtmlPerf(_htmlPerf);
 
