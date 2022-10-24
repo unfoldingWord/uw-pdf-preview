@@ -9,6 +9,7 @@ import __htmlPerf from '../data/tit-fra_fraLSG-perf.html.json';
 import EpiteletePerfHtml from "epitelete-perf-html";
 import { useProskomma, useImport } from "proskomma-react-hooks";
 import { useDeepCompareCallback, useDeepCompareEffect, useDeepCompareMemo } from "use-deep-compare";
+import '../../node_modules/@xelah/type-perf-html/build/components/HtmlSequenceEditor.css'
 
 const urlDocument = ({ selectors, bookCode, bookName, filename, ...props}) => ({
   selectors,

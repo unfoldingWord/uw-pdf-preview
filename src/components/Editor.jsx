@@ -11,8 +11,6 @@ import SectionBody from "./SectionBody";
 import { HtmlPerfEditor } from "@xelah/type-perf-html";
 import EpiteletePerfHtml from "epitelete-perf-html";
 
-import styles from "./Editor.module.css";
-
 export default function Editor( props) {
   const { onSave, epiteletePerfHtml, bookId, verbose } = props;
   const [graftSequenceId, setGraftSequenceId] = useState();
@@ -164,7 +162,7 @@ export default function Editor( props) {
     <div key="1" className="Editor" style={style}>
       {buttons}
       <h2>Main Sequence Editor</h2>
-      {sequenceId && htmlPerf ? <HtmlPerfEditor className={styles.perf}  {...htmlEditorProps} /> : skeleton}
+      {sequenceId && htmlPerf ? <HtmlPerfEditor {...htmlEditorProps} /> : skeleton}
       {buttons}
     </div>
   );
