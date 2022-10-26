@@ -1,12 +1,12 @@
 # Editor demo 1
 
-The Editor expects input of a EpiteletePerfHtml object.
+The Editor expects input of a EpiteleteHtml object.
 
 ```js
 import { useState, useEffect } from 'react';
 
 import __htmlPerf from '../data/tit-fra_fraLSG-perf.html.json';
-import EpiteletePerfHtml from "epitelete-perf-html";
+import EpiteleteHtml from "epitelete-html";
 import { useProskomma, useImport } from "proskomma-react-hooks";
 import { useDeepCompareCallback, useDeepCompareEffect, useDeepCompareMemo } from "use-deep-compare";
 import '../../node_modules/@xelah/type-perf-html/build/components/HtmlSequenceEditor.css'
@@ -44,19 +44,19 @@ function Component () {
   const onSave = (arg) => console.log("save button clicked", arg)
   const docSetId = 'unfoldingWord/en_ult'
   
-  const epiteletePerfHtml = useDeepCompareMemo(() => (
-    ready && new EpiteletePerfHtml({ proskomma, docSetId, options: { historySize: 100 } })
+  const epiteleteHtml = useDeepCompareMemo(() => (
+    ready && new EpiteleteHtml({ proskomma, docSetId, options: { historySize: 100 } })
   ), [proskomma, ready, docSetId]);
   
   const editorProps = {
-    epiteletePerfHtml,
+    epiteleteHtml,
     bookId: 'mat',
     onSave,
     verbose
   }
 
   const editorPropsLuk = {
-    epiteletePerfHtml,
+    epiteleteHtml,
     bookId: 'luk',
     onSave,
     verbose
@@ -97,13 +97,13 @@ Here is the function for sideloading:
 import { useState, useEffect } from 'react';
 
 import __htmlPerf from '../data/tit.en.ult.perf.json';
-import EpiteletePerfHtml from "epitelete-perf-html";
+import EpiteleteHtml from "epitelete-html";
 
 function Component () {
   const proskomma = null;
   const docSetId = 'unfoldingWord/en_ult'
   const [ready, setReady] = useState(false);
-  const [ep, setEp] = useState(new EpiteletePerfHtml({ proskomma, docSetId, options: { historySize: 100 } }))
+  const [ep, setEp] = useState(new EpiteleteHtml({ proskomma, docSetId, options: { historySize: 100 } }))
   const verbose = true
 
   const onSave = (arg) => console.log("save button clicked", arg)
@@ -122,7 +122,7 @@ function Component () {
   )
   
   const editorProps = {
-    epiteletePerfHtml: ep,
+    EpiteleteHtml: ep,
     bookId: 'TIT',
     onSave,
     verbose

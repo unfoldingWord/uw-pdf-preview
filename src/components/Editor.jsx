@@ -9,11 +9,11 @@ import Section from "./Section";
 import SectionHeading from "./SectionHeading";
 import SectionBody from "./SectionBody";
 import { HtmlPerfEditor } from "@xelah/type-perf-html";
-import EpiteletePerfHtml from "epitelete-perf-html";
+import EpiteleteHtml from "epitelete-html";
 
 export default function Editor( props) {
-  const { onSave, epiteletePerfHtml, bookId, verbose } = props;
-  const [graftSequenceId, setGraftSequenceId] = useState();
+  const { onSave, epiteleteHtml, bookId, verbose } = props;
+  // const [graftSequenceId, setGraftSequenceId] = useState();
 
   // const [isSaving, startSaving] = useTransition();
   const [htmlPerf, setHtmlPerf] = useState();
@@ -21,20 +21,20 @@ export default function Editor( props) {
   const bookCode = bookId.toUpperCase()
 
   useDeepCompareEffect(() => {
-    if (epiteletePerfHtml) {
-      //        epiteletePerfHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
-      epiteletePerfHtml.readHtml(bookCode).then((_htmlPerf) => {
+    if (epiteleteHtml) {
+      //        epiteleteHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
+      epiteleteHtml.readHtml(bookCode).then((_htmlPerf) => {
         setHtmlPerf(_htmlPerf);
       });
     }
-  }, [epiteletePerfHtml, bookCode]);
+  }, [epiteleteHtml, bookCode]);
 
   const onHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId }) => {
     const perfChanged = !isEqual(htmlPerf, _htmlPerf);
     if (perfChanged) setHtmlPerf(_htmlPerf);
 
     const saveNow = async () => {
-      const newHtmlPerf = await epiteletePerfHtml.writeHtml( bookCode, sequenceId, _htmlPerf );
+      const newHtmlPerf = await EpiteleteHtml.writeHtml( bookCode, sequenceId, _htmlPerf );
       if (verbose) console.log({ info: "Saved sequenceId", bookCode, sequenceId });
 
       const perfChanged = !isEqual(htmlPerf, newHtmlPerf);
@@ -44,25 +44,25 @@ export default function Editor( props) {
   }, [htmlPerf, bookCode]);
 
   const undo = async () => {
-    const newPerfHtml = await epiteletePerfHtml.undoHtml(bookCode);
+    const newPerfHtml = await epiteleteHtml.undoHtml(bookCode);
     setHtmlPerf(newPerfHtml);
   };
 
   const redo = async () => {
-    const newPerfHtml = await epiteletePerfHtml.redoHtml(bookCode);
+    const newPerfHtml = await epiteleteHtml.redoHtml(bookCode);
     setHtmlPerf(newPerfHtml);
   };
 
-  const canUndo = epiteletePerfHtml.canUndo(bookCode);
-  const canRedo = epiteletePerfHtml.canRedo(bookCode);
+  const canUndo = epiteleteHtml.canUndo(bookCode);
+  const canRedo = epiteleteHtml.canRedo(bookCode);
 
-  const handlers = {
-    onBlockClick: ({ element }) => {
-      const _sequenceId = element.dataset.target;
-      // if (_sequenceId && !isInline) addSequenceId(_sequenceId);
-      if (_sequenceId) setGraftSequenceId(_sequenceId);
-    },
-  };
+  // const handlers = {
+  //   onBlockClick: ({ element }) => {
+  //     const _sequenceId = element.dataset.target;
+  //     // if (_sequenceId && !isInline) addSequenceId(_sequenceId);
+  //     if (_sequenceId) setGraftSequenceId(_sequenceId);
+  //   },
+  // };
 
   const {
     state: {
@@ -122,16 +122,16 @@ export default function Editor( props) {
       sectionBody: SectionBody,
     },
     options,
-    handlers,
+    // handlers,
     decorators: {},
     verbose,
   };
 
-  const graftProps = {
-    ...htmlEditorProps,
-    options: { ...options, sectionable: false },
-    sequenceIds: [graftSequenceId],
-  };
+  // const graftProps = {
+  //   ...htmlEditorProps,
+  //   options: { ...options, sectionable: false },
+  //   sequenceIds: [graftSequenceId],
+  // };
 
 
   const onSectionable = () => { setSectionable(!sectionable); };
@@ -170,7 +170,7 @@ export default function Editor( props) {
 
 Editor.propTypes = {
   onSave: PropTypes.func,
-  epiteletePerfHtml: PropTypes.instanceOf(EpiteletePerfHtml),
+  epiteleteHtml: PropTypes.instanceOf(EpiteleteHtml),
   bookId: PropTypes.string,
   verbose: PropTypes.bool,
 };

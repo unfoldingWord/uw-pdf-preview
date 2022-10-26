@@ -32,7 +32,7 @@
     "babel-loader": "^8.2.2",
     "crypto-browserify": "^3.12.0",
     "css-loader": "^6.7.1",
-    "epitelete-perf-html": "^0.2.6",
+    "epitelete-html": "0.2.9",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-import": "^2.26.0",
