@@ -43,7 +43,7 @@ function Component () {
   const onSave = (arg) => console.log("save button clicked", arg)
   const docSetId = 'unfoldingWord/en_ult'
   
-  const epHtml = useDeepCompareMemo(() => (
+  const epiteleteHtml = useDeepCompareMemo(() => (
     ready && new EpiteleteHtml({ proskomma, docSetId, options: { historySize: 100 } })
   ), [proskomma, ready, docSetId]);
   
