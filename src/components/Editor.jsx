@@ -14,7 +14,7 @@ import EpiteleteHtml from "epitelete-html";
 import styles from "./Editor.module.css";
 
 export default function Editor( props) {
-  const { onSave, EpiteleteHtml, bookId, verbose } = props;
+  const { onSave, epiteleteHtml, bookId, verbose } = props;
   // const [graftSequenceId, setGraftSequenceId] = useState();
 
   // const [isSaving, startSaving] = useTransition();
@@ -23,13 +23,13 @@ export default function Editor( props) {
   const bookCode = bookId.toUpperCase()
 
   useDeepCompareEffect(() => {
-    if (EpiteleteHtml) {
-      //        EpiteleteHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
-      EpiteleteHtml.readHtml(bookCode).then((_htmlPerf) => {
+    if (epiteleteHtml) {
+      //        epiteleteHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
+      epiteleteHtml.readHtml(bookCode).then((_htmlPerf) => {
         setHtmlPerf(_htmlPerf);
       });
     }
-  }, [EpiteleteHtml, bookCode]);
+  }, [epiteleteHtml, bookCode]);
 
   const onHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId }) => {
     const perfChanged = !isEqual(htmlPerf, _htmlPerf);
@@ -46,17 +46,17 @@ export default function Editor( props) {
   }, [htmlPerf, bookCode]);
 
   const undo = async () => {
-    const newPerfHtml = await EpiteleteHtml.undoHtml(bookCode);
+    const newPerfHtml = await epiteleteHtml.undoHtml(bookCode);
     setHtmlPerf(newPerfHtml);
   };
 
   const redo = async () => {
-    const newPerfHtml = await EpiteleteHtml.redoHtml(bookCode);
+    const newPerfHtml = await epiteleteHtml.redoHtml(bookCode);
     setHtmlPerf(newPerfHtml);
   };
 
-  const canUndo = EpiteleteHtml.canUndo(bookCode);
-  const canRedo = EpiteleteHtml.canRedo(bookCode);
+  const canUndo = epiteleteHtml.canUndo(bookCode);
+  const canRedo = epiteleteHtml.canRedo(bookCode);
 
   // const handlers = {
   //   onBlockClick: ({ element }) => {
@@ -172,7 +172,7 @@ export default function Editor( props) {
 
 Editor.propTypes = {
   onSave: PropTypes.func,
-  EpiteleteHtml: PropTypes.instanceOf(EpiteleteHtml),
+  epiteleteHtml: PropTypes.instanceOf(EpiteleteHtml),
   bookId: PropTypes.string,
   verbose: PropTypes.bool,
 };
