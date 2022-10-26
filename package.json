@@ -79,7 +79,7 @@
   "peerDependencies": {
     "@mui/material": "^5.x",
     "@mui/styles": "^5.x",
-    "epitelete-perf-html": "^0.2.6",
+    "epitelete-html": "^0.2.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
