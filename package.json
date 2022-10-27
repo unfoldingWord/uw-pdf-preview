@@ -1,7 +1,7 @@
 {
   "name": "uw-editor",
   "description": "A React Component Library for editing PERF.",
-  "version": "0.1.7",
+  "version": "0.1.8-rc.1",
   "homepage": "https://uw-editor.netlify.app/",
   "license": "MIT",
   "repository": {
@@ -51,9 +51,7 @@
   },
   "scripts": {
     "start": "yarn && npx styleguidist server",
-    "build-dev": "npx styleguidist build",
-    "build": "webpack --mode production --config webpack.prod.js",
-    "watch": "webpack --watch --mode development",
+    "build": "npx styleguidist build && mv styleguide build",
     "test": "react-scripts test",
     "sections": "node styleguide.sections.js",
     "prepublishOnly": "rm -rf ./dist && babel ./src --out-dir ./dist -s inline"
