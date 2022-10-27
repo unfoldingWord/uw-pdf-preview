@@ -106,7 +106,15 @@ function Component () {
   const [ep, setEp] = useState(new EpiteleteHtml({ proskomma, docSetId, options: { historySize: 100 } }))
   const verbose = true
 
-  const onSave = (arg) => console.log("save button clicked", arg)
+  const onSave = async (arg) => {
+    console.log("save button clicked", arg)
+    console.log("Trying readUsfm() method")
+    const usfmText = await ep.readUsfm('TIT')
+    console.log("USFM:",usfmText)
+    console.log("Trying getDocument() method")
+    const perfJson = await ep.getDocument('TIT')
+    console.log("PERF:",JSON.stringify(perfJson, null, 4))
+  }
   
   useEffect(
     () => {
@@ -122,7 +130,7 @@ function Component () {
   )
   
   const editorProps = {
-    EpiteleteHtml: ep,
+    epiteleteHtml: ep,
     bookId: 'TIT',
     onSave,
     verbose

@@ -34,7 +34,7 @@ export default function Editor( props) {
     if (perfChanged) setHtmlPerf(_htmlPerf);
 
     const saveNow = async () => {
-      const newHtmlPerf = await EpiteleteHtml.writeHtml( bookCode, sequenceId, _htmlPerf );
+      const newHtmlPerf = await epiteleteHtml.writeHtml( bookCode, sequenceId, _htmlPerf );
       if (verbose) console.log({ info: "Saved sequenceId", bookCode, sequenceId });
 
       const perfChanged = !isEqual(htmlPerf, newHtmlPerf);
