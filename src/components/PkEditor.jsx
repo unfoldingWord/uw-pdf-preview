@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types';
 import { useDeepCompareCallback, useDeepCompareEffect } from "use-deep-compare";
 import isEqual from 'lodash.isequal';
@@ -10,18 +9,32 @@ import Section from "./Section";
 import SectionHeading from "./SectionHeading";
 import SectionBody from "./SectionBody";
 import { HtmlPerfEditor } from "@xelah/type-perf-html";
-import EpiteletePerfHtml from "epitelete-perf-html";
+import { LocalPkCacheContext } from '../context/LocalPkCacheContext'
 
 import styles from "./Editor.module.css";
 
-export default function Editor( props) {
-  const { onSave, epiteletePerfHtml, bookId, verbose } = props;
+export default function PkEditor( props) {
+  const { onSave, docSetId, bcvQuery } = props;
+  const books = Object.keys(bcvQuery?.book)
+  const bookId = books[0] ?? ""
   const [graftSequenceId, setGraftSequenceId] = useState();
-
   // const [isSaving, startSaving] = useTransition();
+  const [epiteletePerfHtml, setEpiteletePerfHtml] = useState();
   const [htmlPerf, setHtmlPerf] = useState();
 
+  const {
+    state: {
+      epCache,
+    },
+  } = useContext(LocalPkCacheContext)
+
   const bookCode = bookId.toUpperCase()
+
+  useDeepCompareEffect(() => {
+    if (epCache[docSetId]) {
+      setEpiteletePerfHtml(epCache[docSetId])
+    }
+  }, [epCache, docSetId, bookCode]);
 
   useDeepCompareEffect(() => {
     if (epiteletePerfHtml) {
@@ -30,7 +43,7 @@ export default function Editor( props) {
         setHtmlPerf(_htmlPerf);
       });
     }
-  }, [epiteletePerfHtml, bookCode]);
+  }, [epiteletePerfHtml]);
 
   const onHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId }) => {
     const perfChanged = !isEqual(htmlPerf, _htmlPerf);
@@ -38,7 +51,6 @@ export default function Editor( props) {
 
     const saveNow = async () => {
       const newHtmlPerf = await epiteletePerfHtml.writeHtml( bookCode, sequenceId, _htmlPerf );
-      if (verbose) console.log({ info: "Saved sequenceId", bookCode, sequenceId });
 
       const perfChanged = !isEqual(htmlPerf, newHtmlPerf);
       if (perfChanged) setHtmlPerf(newHtmlPerf);
@@ -56,8 +68,8 @@ export default function Editor( props) {
     setHtmlPerf(newPerfHtml);
   };
 
-  const canUndo = epiteletePerfHtml.canUndo(bookCode);
-  const canRedo = epiteletePerfHtml.canRedo(bookCode);
+  const canUndo = epiteletePerfHtml?.canUndo(bookCode);
+  const canRedo = epiteletePerfHtml?.canRedo(bookCode);
 
   const handlers = {
     onBlockClick: ({ element }) => {
@@ -127,7 +139,7 @@ export default function Editor( props) {
     options,
     handlers,
     decorators: {},
-    verbose,
+    verbose: true,
   };
 
   const graftProps = {
@@ -172,9 +184,8 @@ export default function Editor( props) {
   );
 };
 
-Editor.propTypes = {
+PkEditor.propTypes = {
   onSave: PropTypes.func,
-  epiteletePerfHtml: PropTypes.instanceOf(EpiteletePerfHtml),
-  bookId: PropTypes.string,
-  verbose: PropTypes.bool,
+  docSetId: PropTypes.string,
+  bcvQuery: PropTypes.any, 
 };

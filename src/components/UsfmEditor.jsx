@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import { useDeepCompareCallback, useDeepCompareEffect } from "use-deep-compare";
@@ -14,8 +13,8 @@ import EpiteletePerfHtml from "epitelete-perf-html";
 
 import styles from "./Editor.module.css";
 
-export default function Editor( props) {
-  const { onSave, epiteletePerfHtml, bookId, verbose } = props;
+export default function UsfmEditor( props) {
+  const { onSave, docSetId, bcvQuery, usfmText } = props;
   const [graftSequenceId, setGraftSequenceId] = useState();
 
   // const [isSaving, startSaving] = useTransition();
@@ -38,7 +37,6 @@ export default function Editor( props) {
 
     const saveNow = async () => {
       const newHtmlPerf = await epiteletePerfHtml.writeHtml( bookCode, sequenceId, _htmlPerf );
-      if (verbose) console.log({ info: "Saved sequenceId", bookCode, sequenceId });
 
       const perfChanged = !isEqual(htmlPerf, newHtmlPerf);
       if (perfChanged) setHtmlPerf(newHtmlPerf);
@@ -136,7 +134,6 @@ export default function Editor( props) {
     sequenceIds: [graftSequenceId],
   };
 
-  console.log(graftProps)
 
   const onSectionable = () => { setSectionable(!sectionable); };
   const onBlockable = () => { setBlockable(!blockable); };
