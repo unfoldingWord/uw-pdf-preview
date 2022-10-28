@@ -15,8 +15,8 @@ export default function PkEditor( props) {
   const { onSave, docSetId, bcvQuery } = props;
   const books = Object.keys(bcvQuery?.book)
   const bookId = books[0] ?? ""
-  const [graftSequenceId, setGraftSequenceId] = useState();
-  // const [isSaving, startSaving] = useTransition();
+  //const [graftSequenceId, setGraftSequenceId] = useState();
+  //const [isSaving, startSaving] = useTransition();
   const [epiteletePerfHtml, setEpiteletePerfHtml] = useState();
   const [htmlPerf, setHtmlPerf] = useState();
 
@@ -69,13 +69,13 @@ export default function PkEditor( props) {
   const canUndo = epiteletePerfHtml?.canUndo(bookCode);
   const canRedo = epiteletePerfHtml?.canRedo(bookCode);
 
-  const handlers = {
-    onBlockClick: ({ element }) => {
-      const _sequenceId = element.dataset.target;
-      // if (_sequenceId && !isInline) addSequenceId(_sequenceId);
-      if (_sequenceId) setGraftSequenceId(_sequenceId);
-    },
-  };
+  // const handlers = {
+  //   onBlockClick: ({ element }) => {
+  //     const _sequenceId = element.dataset.target;
+  //     // if (_sequenceId && !isInline) addSequenceId(_sequenceId);
+  //     if (_sequenceId) setGraftSequenceId(_sequenceId);
+  //   },
+  // };
 
   const {
     state: {
@@ -135,18 +135,16 @@ export default function PkEditor( props) {
       sectionBody: SectionBody,
     },
     options,
-    handlers,
+    // handlers,
     decorators: {},
     verbose: true,
   };
 
-  const graftProps = {
-    ...htmlEditorProps,
-    options: { ...options, sectionable: false },
-    sequenceIds: [graftSequenceId],
-  };
-
-  console.log(graftProps)
+  // const graftProps = {
+  //   ...htmlEditorProps,
+  //   options: { ...options, sectionable: false },
+  //   sequenceIds: [graftSequenceId],
+  // };
 
   const onSectionable = () => { setSectionable(!sectionable); };
   const onBlockable = () => { setBlockable(!blockable); };

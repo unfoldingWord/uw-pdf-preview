@@ -133,8 +133,6 @@ export default function Editor( props) {
   //   sequenceIds: [graftSequenceId],
   // };
 
-  console.log(graftProps)
-
   const onSectionable = () => { setSectionable(!sectionable); };
   const onBlockable = () => { setBlockable(!blockable); };
   const onEditable = () => { setEditable(!editable); };
