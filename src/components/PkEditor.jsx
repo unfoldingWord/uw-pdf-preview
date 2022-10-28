@@ -11,8 +11,6 @@ import SectionBody from "./SectionBody";
 import { HtmlPerfEditor } from "@xelah/type-perf-html";
 import { LocalPkCacheContext } from '../context/LocalPkCacheContext'
 
-import styles from "./Editor.module.css";
-
 export default function PkEditor( props) {
   const { onSave, docSetId, bcvQuery } = props;
   const books = Object.keys(bcvQuery?.book)
@@ -178,7 +176,7 @@ export default function PkEditor( props) {
     <div key="1" className="Editor" style={style}>
       {buttons}
       <h2>Main Sequence Editor</h2>
-      {sequenceId && htmlPerf ? <HtmlPerfEditor className={styles.perf}  {...htmlEditorProps} /> : skeleton}
+      {sequenceId && htmlPerf ? <HtmlPerfEditor {...htmlEditorProps} /> : skeleton}
       {buttons}
     </div>
   );
