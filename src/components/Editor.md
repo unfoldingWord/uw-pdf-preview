@@ -4,8 +4,6 @@ The Editor expects input of a EpiteletePerfHtml object.
 
 ```js
 import { useState, useEffect } from 'react';
-
-import __htmlPerf from '../data/tit-fra_fraLSG-perf.html.json';
 import EpiteletePerfHtml from "epitelete-perf-html";
 import { useProskomma, useImport } from "proskomma-react-hooks";
 import { useDeepCompareCallback, useDeepCompareEffect, useDeepCompareMemo } from "use-deep-compare";
