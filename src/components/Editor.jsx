@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import { useDeepCompareCallback, useDeepCompareEffect } from "use-deep-compare";
 import isEqual from 'lodash.isequal';
+import { HtmlPerfEditor } from "@xelah/type-perf-html";
+import EpiteleteHtml from "epitelete-html";
 
 import { Skeleton, Stack } from "@mui/material";
 import useEditorState from "../hooks/useEditorState";
 import Section from "./Section";
 import SectionHeading from "./SectionHeading";
 import SectionBody from "./SectionBody";
-import { HtmlPerfEditor } from "@xelah/type-perf-html";
-import EpiteleteHtml from "epitelete-html";
+import Buttons from "./Buttons"
 
 export default function Editor( props) {
   const { onSave, epiteleteHtml, bookId, verbose } = props;
@@ -72,13 +73,10 @@ export default function Editor( props) {
       preview,
     },
     actions: {
-      setSectionable,
-      setBlockable,
-      setEditable,
-      setPreview,
       setSequenceIds,
       addSequenceId,
       setSequenceId,
+      setToggles,
     },
   } = useEditorState({sequenceIds: [htmlPerf?.mainSequenceId], ...props});
 
@@ -134,22 +132,18 @@ export default function Editor( props) {
   // };
 
 
-  const onSectionable = () => { setSectionable(!sectionable); };
-  const onBlockable = () => { setBlockable(!blockable); };
-  const onEditable = () => { setEditable(!editable); };
-  const onPreview = () => { setPreview(!preview); };
-
-  const buttons = (
-    <div className="buttons">
-      <button style={(sectionable ? {borderStyle: 'inset'} : {})} onClick={onSectionable}>Sectionable</button>
-      <button style={(blockable ? {borderStyle: 'inset'} : {})} onClick={onBlockable}>Blockable</button>
-      <button style={(editable ? {borderStyle: 'inset'} : {})} onClick={onEditable}>Editable</button>
-      <button style={(preview ? {borderStyle: 'inset'} : {})} onClick={onPreview}>Preview</button>
-      <button style={(canUndo ? {borderStyle: 'inset'} : {})} onClick={undo}>Undo</button>
-      <button style={(canRedo ? {borderStyle: 'inset'} : {})} onClick={redo}>Redo</button>
-      <button  onClick={onSave}>Save</button>
-    </div>
-  );
+  const buttonsProps = {
+    sectionable,
+    blockable,
+    editable,
+    preview,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    setToggles,
+    onSave,
+  }
 
   // const graftSequenceEditor = (
   //   <>
@@ -160,10 +154,8 @@ export default function Editor( props) {
 
   return (
     <div key="1" className="Editor" style={style}>
-      {buttons}
-      <h2>Main Sequence Editor</h2>
+      <Buttons {...buttonsProps} />
       {sequenceId && htmlPerf ? <HtmlPerfEditor {...htmlEditorProps} /> : skeleton}
-      {buttons}
     </div>
   );
 };
