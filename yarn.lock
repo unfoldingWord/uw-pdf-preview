@@ -5284,10 +5284,10 @@ envinfo@^7.7.3:
   resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-7.8.1.tgz#06377e3e5f4d379fea7ac592d5ad8927e0c4d475"
   integrity sha512-/o+BXHmB7ocbHEAs6F2EnG0ogybVVUdkRunTT2glZU9XAaGmhqskrvKwqXuDfNjEO0LZKWdejEEpnq8aM0tOaw==
 
-epitelete-perf-html@^0.2.6:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/epitelete-perf-html/-/epitelete-perf-html-0.2.8.tgz#ba7f730673143ca7ec48d03e408fe1077d476997"
-  integrity sha512-rnyu54+XEgvKYyXvrWfRMhJzLBIiEXBpwEl0ArIcJCIlYbAQsGjrS/K2jx1xvOoISD/x5eE9sdpj9vIQ17BXKg==
+epitelete-html@0.2.9:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/epitelete-html/-/epitelete-html-0.2.9.tgz#8153a721ec34f254f0909dccb715549fefbc6822"
+  integrity sha512-TqZh+7K8ik2nrH+JZYHShto1su4mMmipjElHuaXXnP3bai1yHMRmjGRZjAOxVFq5JTGTByncDAkKguiRoIUsdg==
   dependencies:
     "@babel/core" "^7.17.10"
     epitelete "^0.2.9"
