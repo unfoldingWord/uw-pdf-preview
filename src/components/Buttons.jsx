@@ -8,6 +8,7 @@ import {
   Undo,
   Redo, Save
 } from '@mui/icons-material'
+import PropTypes from 'prop-types';
 
 
 export default function Buttons(props) {
@@ -109,3 +110,13 @@ export default function Buttons(props) {
     </ToggleButtonGroup>
   );
 }
+Buttons.propTypes = {
+  setToggles: PropTypes.func.isRequired,
+  undo: PropTypes.func,
+  redo: PropTypes.func,
+  onSave: PropTypes.func,
+  canUndo: PropTypes.bool,
+  canRedo: PropTypes.bool,
+  editable: PropTypes.bool,
+  preview: PropTypes.bool,
+};
