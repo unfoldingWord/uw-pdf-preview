@@ -1,26 +1,44 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types';
 import { useDeepCompareCallback, useDeepCompareEffect } from "use-deep-compare";
 import isEqual from 'lodash.isequal';
 
 import { Skeleton, Stack } from "@mui/material";
 import useEditorState from "../hooks/useEditorState";
+import usePkImport from "../hooks/usePkImport";
 import Section from "./Section";
 import SectionHeading from "./SectionHeading";
 import SectionBody from "./SectionBody";
 import { HtmlPerfEditor } from "@xelah/type-perf-html";
-import EpiteletePerfHtml from "epitelete-perf-html";
+import { LocalPkCacheContext } from '../context/LocalPkCacheContext'
 
 import styles from "./Editor.module.css";
 
 export default function UsfmEditor( props) {
-  const { onSave, docSetId, bcvQuery, usfmText } = props;
+  const { onSave, docSetId, usfmText, bcvQuery } = props;
+  const books = Object.keys(bcvQuery?.book)
+  const bookId = books[0] ?? ""
+  const docSetBookId = `${docSetId}/${bookId}`
   const [graftSequenceId, setGraftSequenceId] = useState();
-
   // const [isSaving, startSaving] = useTransition();
+  const [epiteletePerfHtml, setEpiteletePerfHtml] = useState();
   const [htmlPerf, setHtmlPerf] = useState();
 
+  const { loading, done } = usePkImport( docSetBookId, usfmText ) 
+
+  const {
+    state: {
+      epCache,
+    },
+  } = useContext(LocalPkCacheContext)
+
   const bookCode = bookId.toUpperCase()
+
+  useDeepCompareEffect(() => {
+    if (epCache[docSetId]) {
+      setEpiteletePerfHtml(epCache[docSetId])
+    }
+  }, [epCache, docSetId, bookCode]);
 
   useDeepCompareEffect(() => {
     if (epiteletePerfHtml) {
@@ -29,7 +47,7 @@ export default function UsfmEditor( props) {
         setHtmlPerf(_htmlPerf);
       });
     }
-  }, [epiteletePerfHtml, bookCode]);
+  }, [epiteletePerfHtml]);
 
   const onHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId }) => {
     const perfChanged = !isEqual(htmlPerf, _htmlPerf);
@@ -54,8 +72,8 @@ export default function UsfmEditor( props) {
     setHtmlPerf(newPerfHtml);
   };
 
-  const canUndo = epiteletePerfHtml.canUndo(bookCode);
-  const canRedo = epiteletePerfHtml.canRedo(bookCode);
+  const canUndo = epiteletePerfHtml?.canUndo(bookCode);
+  const canRedo = epiteletePerfHtml?.canRedo(bookCode);
 
   const handlers = {
     onBlockClick: ({ element }) => {
@@ -125,7 +143,7 @@ export default function UsfmEditor( props) {
     options,
     handlers,
     decorators: {},
-    verbose,
+    verbose: true,
   };
 
   const graftProps = {
@@ -134,6 +152,7 @@ export default function UsfmEditor( props) {
     sequenceIds: [graftSequenceId],
   };
 
+  console.log(graftProps)
 
   const onSectionable = () => { setSectionable(!sectionable); };
   const onBlockable = () => { setBlockable(!blockable); };
@@ -163,15 +182,16 @@ export default function UsfmEditor( props) {
     <div key="1" className="Editor" style={style}>
       {buttons}
       <h2>Main Sequence Editor</h2>
-      {sequenceId && htmlPerf ? <HtmlPerfEditor className={styles.perf}  {...htmlEditorProps} /> : skeleton}
+      {loading && (<div>Loading...</div>)}
+      {sequenceId && done && htmlPerf ? <HtmlPerfEditor className={styles.perf}  {...htmlEditorProps} /> : skeleton}
       {buttons}
     </div>
   );
 };
 
-Editor.propTypes = {
+UsfmEditor.propTypes = {
   onSave: PropTypes.func,
-  epiteletePerfHtml: PropTypes.instanceOf(EpiteletePerfHtml),
-  bookId: PropTypes.string,
-  verbose: PropTypes.bool,
+  docSetId: PropTypes.string,
+  usfmText: PropTypes.string,
+  bcvQuery: PropTypes.any, 
 };

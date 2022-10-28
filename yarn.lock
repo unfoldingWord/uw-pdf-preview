@@ -3048,9 +3048,9 @@ aria-query@^4.2.2:
     "@babel/runtime-corejs3" "^7.10.2"
 
 aria-query@^5.0.0:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/aria-query/-/aria-query-5.1.1.tgz#e930bc77378f0db1c705049fe73d90d9cb657600"
-  integrity sha512-4cPQjOYM2mqq7mZG8CSxkUvL2Yv/x29VhGq5LKehTsxRnoVQps1YGt9NyjcNQsznEsD4rr8a6zGxqeNTqJWjpA==
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/aria-query/-/aria-query-5.1.2.tgz#505a95b0be8b4a978b8e38bcb346a11653ba8b77"
+  integrity sha512-JWydkr9MirMg2jGJstDqDgzoHqaFbv7n1ghfXYdtEgXWgdq3jz7IU3SQvtj9k3mAszQBiTpQhFdlH+JIRuGTzg==
   dependencies:
     deep-equal "^2.0.5"
 
@@ -3260,12 +3260,12 @@ atob@^2.1.2:
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
 autoprefixer@^10.4.11:
-  version "10.4.12"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.4.12.tgz#183f30bf0b0722af54ee5ef257f7d4320bb33129"
-  integrity sha512-WrCGV9/b97Pa+jtwf5UGaRjgQIg7OK3D06GnoYoZNcG1Xb8Gt3EfuKjlhh9i/VtT16g6PYjZ69jdJ2g8FxSC4Q==
+  version "10.4.13"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.4.13.tgz#b5136b59930209a321e9fa3dca2e7c4d223e83a8"
+  integrity sha512-49vKpMqcZYsJjwotvt4+h/BCjJVnhGwcLpDt5xkcaOG3eLrG/HUYLagrihYsQ+qrIBgIzX1Rw7a6L8I/ZA1Atg==
   dependencies:
     browserslist "^4.21.4"
-    caniuse-lite "^1.0.30001407"
+    caniuse-lite "^1.0.30001426"
     fraction.js "^4.2.0"
     normalize-range "^0.1.2"
     picocolors "^1.0.0"
@@ -3913,7 +3913,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001407:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001426:
   version "1.0.30001426"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001426.tgz#58da20446ccd0cb1dfebd11d2350c907ee7c2eaa"
   integrity sha512-n7cosrHLl8AWt0wwZw/PJZgUg3lV0gk9LMI7ikGJwhyhgsd2Nb65vKvmSexCqq/J7rbH3mFG6yZZiPR5dLPW5A==
@@ -8675,9 +8675,9 @@ media-typer@0.3.0:
   integrity sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==
 
 memfs@^3.1.2, memfs@^3.4.3:
-  version "3.4.7"
-  resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.4.7.tgz#e5252ad2242a724f938cb937e3c4f7ceb1f70e5a"
-  integrity sha512-ygaiUSNalBX85388uskeCyhSAoOSgzBbtVCr9jA2RROssFL9Q19/ZXFqS+2Th2sr1ewNIWgFdLzLC3Yl1Zv+lw==
+  version "3.4.8"
+  resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.4.8.tgz#4204fbd4cb72e2bbcf5941d784c6b6ce2be3dd52"
+  integrity sha512-E8QAFfd4csESWOqKIpN+khILPFSAZwPR9S+DO/5UtJNcuanF1jLZz0oWUAPF7xd2c1r6dGjGx+jH1st+MFWufA==
   dependencies:
     fs-monkey "^1.0.3"
 

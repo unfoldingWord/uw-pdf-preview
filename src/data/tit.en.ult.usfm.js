@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const usfmText = String.raw`\id TIT EN_ULT en_English_ltr Wed Aug 24 2022 09:32:57 GMT-0400 (Eastern Daylight Time) tc
 \usfm 3.0
 \ide UTF-8

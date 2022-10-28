@@ -9,7 +9,11 @@ module.exports = {
   usageMode: 'expand',
   exampleMode: 'expand',
   moduleAliases: {},
-  components: 'src/components/PkEditor.jsx',
+  components: [
+    'src/components/PkEditor.jsx',
+    'src/components/UsfmEditor.jsx',
+    'src/components/Editor.jsx',
+  ],
   getComponentPathLine: componentPath => {
     const name = path.basename(componentPath, '.jsx');
     return `import { ${name} } from '${packageName}';`;
