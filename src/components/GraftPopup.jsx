@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
+// import PropTypes from 'prop-types'
 import { Button } from '@mui/material'
 import DraggableModal from 'translation-helps-rcl/dist/components/DraggableModal'
 import Card from 'translation-helps-rcl/dist/components/Card'
