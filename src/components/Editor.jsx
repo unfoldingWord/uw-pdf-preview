@@ -11,9 +11,11 @@ import SectionBody from "./SectionBody";
 import { HtmlPerfEditor } from "@xelah/type-perf-html";
 import EpiteleteHtml from "epitelete-html";
 
+import GraftPopup from "./GraftPopup"
+
 export default function Editor( props) {
   const { onSave, epiteleteHtml, bookId, verbose } = props;
-  // const [graftSequenceId, setGraftSequenceId] = useState();
+  const [graftSequenceId, setGraftSequenceId] = useState(null);
 
   // const [isSaving, startSaving] = useTransition();
   const [htmlPerf, setHtmlPerf] = useState();
@@ -56,13 +58,13 @@ export default function Editor( props) {
   const canUndo = epiteleteHtml.canUndo(bookCode);
   const canRedo = epiteleteHtml.canRedo(bookCode);
 
-  // const handlers = {
-  //   onBlockClick: ({ element }) => {
-  //     const _sequenceId = element.dataset.target;
-  //     // if (_sequenceId && !isInline) addSequenceId(_sequenceId);
-  //     if (_sequenceId) setGraftSequenceId(_sequenceId);
-  //   },
-  // };
+  const handlers = {
+    onBlockClick: ({ element }) => {
+      const _sequenceId = element.dataset.target;
+      // if (_sequenceId && !isInline) addSequenceId(_sequenceId);
+      if (_sequenceId) setGraftSequenceId(_sequenceId);
+    },
+  };
 
   const {
     state: {
@@ -122,9 +124,18 @@ export default function Editor( props) {
       sectionBody: SectionBody,
     },
     options,
-    // handlers,
+    handlers,
     decorators: {},
     verbose,
+  };
+
+
+  const graftProps = {
+    ...htmlEditorProps,
+    options: { ...options, sectionable: false },
+    sequenceIds: [graftSequenceId],
+    graftSequenceId,
+    setGraftSequenceId,
   };
 
   // const graftProps = {
@@ -164,6 +175,7 @@ export default function Editor( props) {
       <h2>Main Sequence Editor</h2>
       {sequenceId && htmlPerf ? <HtmlPerfEditor {...htmlEditorProps} /> : skeleton}
       {buttons}
+      <GraftPopup {...graftProps} />
     </div>
   );
 };
