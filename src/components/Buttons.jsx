@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 
 
 export default function Buttons(props) {
-  const { canUndo, canRedo, setToggles, undo, redo, onSave } = props;
+  const { canUndo, canRedo, setToggles, undo, redo, onSave, canSave } = props;
   const togglesAll = useMemo(
     () => ["sectionable", "blockable", "editable", "preview"],
     []
@@ -57,6 +57,7 @@ export default function Buttons(props) {
         data-test-id="ToggleButtonSectionable"
         value="sectionable"
         aria-label="sectionable"
+        title="Sectionable"
       >
         <ViewStream />
       </ToggleButton>
@@ -64,6 +65,7 @@ export default function Buttons(props) {
         data-test-id="ToggleButtonBlockable"
         value="blockable"
         aria-label="blockable"
+        title="Blockable"
       >
         <Subject />
       </ToggleButton>
@@ -71,6 +73,7 @@ export default function Buttons(props) {
         data-test-id="ToggleButtonEditable"
         value="editable"
         aria-label="editable"
+        title="Editable"
       >
         <Edit />
       </ToggleButton>
@@ -78,6 +81,7 @@ export default function Buttons(props) {
         data-test-id="ToggleButtonPreview"
         value="preview"
         aria-label="preview"
+        title="Preview"
       >
         <Preview />
       </ToggleButton>
@@ -87,6 +91,7 @@ export default function Buttons(props) {
         aria-label="undo"
         onClick={handleUndo}
         disabled={!canUndo}
+        title='Undo'
       >
         <Undo />
       </ToggleButton>
@@ -96,6 +101,7 @@ export default function Buttons(props) {
         aria-label="redo"
         onClick={handleRedo}
         disabled={!canRedo}
+        title="Redo"
       >
         <Redo />
       </ToggleButton>
@@ -104,6 +110,8 @@ export default function Buttons(props) {
         value="save"
         aria-label="save"
         onClick={onSave}
+        disabled={!canSave}
+        title="Save"
       >
         <Save />
       </ToggleButton>
@@ -119,4 +127,5 @@ Buttons.propTypes = {
   canRedo: PropTypes.bool,
   editable: PropTypes.bool,
   preview: PropTypes.bool,
+  canSave: PropTypes.bool,
 };

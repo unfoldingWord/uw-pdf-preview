@@ -22,6 +22,7 @@ export default function Editor( props) {
   const [htmlPerf, setHtmlPerf] = useState();
 
   const bookCode = bookId.toUpperCase()
+  const [lastSaveHistoryLength, setLastSaveHistoryLength] = useState(epiteleteHtml.history[bookCode].stack.length)
 
   useDeepCompareEffect(() => {
     if (epiteleteHtml) {
@@ -46,6 +47,11 @@ export default function Editor( props) {
     saveNow()
   }, [htmlPerf, bookCode]);
 
+  const handleSave = () => {
+    onSave();
+    setLastSaveHistoryLength( epiteleteHtml.history[bookCode].stack.length )
+  }
+
   const undo = async () => {
     const newPerfHtml = await epiteleteHtml.undoHtml(bookCode);
     setHtmlPerf(newPerfHtml);
@@ -58,6 +64,7 @@ export default function Editor( props) {
 
   const canUndo = epiteleteHtml.canUndo(bookCode);
   const canRedo = epiteleteHtml.canRedo(bookCode);
+  const canSave = epiteleteHtml.history[bookCode] && epiteleteHtml.history[bookCode].stack.length > lastSaveHistoryLength;
 
   const handlers = {
     onBlockClick: ({ element }) => {
@@ -153,7 +160,8 @@ export default function Editor( props) {
     canUndo,
     canRedo,
     setToggles,
-    onSave,
+    canSave,
+    onSave:handleSave,
   }
 
   // const graftSequenceEditor = (
