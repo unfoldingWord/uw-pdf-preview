@@ -12,9 +12,11 @@ import SectionHeading from "./SectionHeading";
 import SectionBody from "./SectionBody";
 import Buttons from "./Buttons"
 
+import GraftPopup from "./GraftPopup"
+
 export default function Editor( props) {
   const { onSave, epiteleteHtml, bookId, verbose } = props;
-  // const [graftSequenceId, setGraftSequenceId] = useState();
+  const [graftSequenceId, setGraftSequenceId] = useState(null);
 
   // const [isSaving, startSaving] = useTransition();
   const [htmlPerf, setHtmlPerf] = useState();
@@ -57,13 +59,13 @@ export default function Editor( props) {
   const canUndo = epiteleteHtml.canUndo(bookCode);
   const canRedo = epiteleteHtml.canRedo(bookCode);
 
-  // const handlers = {
-  //   onBlockClick: ({ element }) => {
-  //     const _sequenceId = element.dataset.target;
-  //     // if (_sequenceId && !isInline) addSequenceId(_sequenceId);
-  //     if (_sequenceId) setGraftSequenceId(_sequenceId);
-  //   },
-  // };
+  const handlers = {
+    onBlockClick: ({ element }) => {
+      const _sequenceId = element.dataset.target;
+      // if (_sequenceId && !isInline) addSequenceId(_sequenceId);
+      if (_sequenceId) setGraftSequenceId(_sequenceId);
+    },
+  };
 
   const {
     state: {
@@ -120,9 +122,18 @@ export default function Editor( props) {
       sectionBody: SectionBody,
     },
     options,
-    // handlers,
+    handlers,
     decorators: {},
     verbose,
+  };
+
+
+  const graftProps = {
+    ...htmlEditorProps,
+    options: { ...options, sectionable: false },
+    sequenceIds: [graftSequenceId],
+    graftSequenceId,
+    setGraftSequenceId,
   };
 
   // const graftProps = {
@@ -156,6 +167,7 @@ export default function Editor( props) {
     <div key="1" className="Editor" style={style}>
       <Buttons {...buttonsProps} />
       {sequenceId && htmlPerf ? <HtmlPerfEditor {...htmlEditorProps} /> : skeleton}
+      <GraftPopup {...graftProps} />
     </div>
   );
 };

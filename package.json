@@ -48,7 +48,8 @@
     "react-scripts": "^5.0.1",
     "react-styleguidist": "^11.2.0",
     "styled-components": "^5.2.1",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^4.10.0",
+    "translation-helps-rcl": "3.3.4-rc.3"
   },
   "scripts": {
     "start": "yarn && npx styleguidist server",
@@ -81,7 +82,8 @@
     "@mui/icons-material": "^5.x",
     "epitelete-html": "^0.2.9",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "translation-helps-rcl": "^3.x"
   },
   "main": "dist/index.js",
   "files": [
