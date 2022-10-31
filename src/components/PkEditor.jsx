@@ -17,7 +17,7 @@ export default function PkEditor( props) {
   const bookId = books[0] ?? ""
   //const [graftSequenceId, setGraftSequenceId] = useState();
   //const [isSaving, startSaving] = useTransition();
-  const [epiteletePerfHtml, setEpiteletePerfHtml] = useState();
+  const [epiteleteHtml, setEpiteleteHtml] = useState();
   const [htmlPerf, setHtmlPerf] = useState();
 
   const {
@@ -30,25 +30,30 @@ export default function PkEditor( props) {
 
   useDeepCompareEffect(() => {
     if (epCache[docSetId]) {
-      setEpiteletePerfHtml(epCache[docSetId])
+      setEpiteleteHtml(epCache[docSetId])
     }
   }, [epCache, docSetId, bookCode]);
 
   useDeepCompareEffect(() => {
-    if (epiteletePerfHtml) {
-      //        epiteletePerfHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
-      epiteletePerfHtml.readHtml(bookCode).then((_htmlPerf) => {
+    if (epiteleteHtml) {
+      //        epiteleteHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
+      epiteleteHtml.readHtml( bookCode, { readPipeline: "stripAlignment" } ).then((_htmlPerf) => {
         setHtmlPerf(_htmlPerf);
       });
     }
-  }, [epiteletePerfHtml]);
+  }, [epiteleteHtml]);
 
   const onHtmlPerf = useDeepCompareCallback(( _htmlPerf, { sequenceId }) => {
     const perfChanged = !isEqual(htmlPerf, _htmlPerf);
     if (perfChanged) setHtmlPerf(_htmlPerf);
 
     const saveNow = async () => {
-      const newHtmlPerf = await epiteletePerfHtml.writeHtml( bookCode, sequenceId, _htmlPerf );
+      const newHtmlPerf = await epiteleteHtml.writeHtml( 
+        bookCode, 
+        sequenceId, 
+        _htmlPerf, 
+        { writePipeline: "mergeAlignment", readPipeline: "stripAlignment" } 
+      );
 
       const perfChanged = !isEqual(htmlPerf, newHtmlPerf);
       if (perfChanged) setHtmlPerf(newHtmlPerf);
@@ -57,17 +62,17 @@ export default function PkEditor( props) {
   }, [htmlPerf, bookCode]);
 
   const undo = async () => {
-    const newPerfHtml = await epiteletePerfHtml.undoHtml(bookCode);
+    const newPerfHtml = await epiteleteHtml.undoHtml(bookCode);
     setHtmlPerf(newPerfHtml);
   };
 
   const redo = async () => {
-    const newPerfHtml = await epiteletePerfHtml.redoHtml(bookCode);
+    const newPerfHtml = await epiteleteHtml.redoHtml(bookCode);
     setHtmlPerf(newPerfHtml);
   };
 
-  const canUndo = epiteletePerfHtml?.canUndo(bookCode);
-  const canRedo = epiteletePerfHtml?.canRedo(bookCode);
+  const canUndo = epiteleteHtml?.canUndo(bookCode);
+  const canRedo = epiteleteHtml?.canRedo(bookCode);
 
   // const handlers = {
   //   onBlockClick: ({ element }) => {

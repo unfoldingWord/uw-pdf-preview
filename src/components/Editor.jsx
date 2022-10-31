@@ -23,7 +23,7 @@ export default function Editor( props) {
   useDeepCompareEffect(() => {
     if (epiteleteHtml) {
       //        epiteleteHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
-      epiteleteHtml.readHtml(bookCode).then((_htmlPerf) => {
+      epiteleteHtml.readHtml( bookCode, { readPipeline: "stripAlignment" } ).then((_htmlPerf) => {
         setHtmlPerf(_htmlPerf);
       });
     }
@@ -34,7 +34,12 @@ export default function Editor( props) {
     if (perfChanged) setHtmlPerf(_htmlPerf);
 
     const saveNow = async () => {
-      const newHtmlPerf = await epiteleteHtml.writeHtml( bookCode, sequenceId, _htmlPerf );
+      const newHtmlPerf = await epiteleteHtml.writeHtml( 
+        bookCode, 
+        sequenceId, 
+        _htmlPerf, 
+        { writePipeline: "mergeAlignment", readPipeline: "stripAlignment" } 
+      );
       if (verbose) console.log({ info: "Saved sequenceId", bookCode, sequenceId });
 
       const perfChanged = !isEqual(htmlPerf, newHtmlPerf);
