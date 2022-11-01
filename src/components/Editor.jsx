@@ -22,7 +22,7 @@ export default function Editor( props) {
   const [htmlPerf, setHtmlPerf] = useState();
 
   const bookCode = bookId.toUpperCase()
-  const [lastSaveHistoryLength, setLastSaveHistoryLength] = useState(epiteleteHtml.history[bookCode].stack.length)
+  const [lastSaveHistoryLength, setLastSaveHistoryLength] = useState(epiteleteHtml.history[bookCode] ? epiteleteHtml.history[bookCode].stack.length : 1)
 
   useDeepCompareEffect(() => {
     if (epiteleteHtml) {
