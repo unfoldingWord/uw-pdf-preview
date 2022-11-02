@@ -39,7 +39,12 @@ function Component () {
   
   const ready = !importing && done
   
-  const onSave = (arg) => console.log("save button clicked", arg)
+  const onSave = (bookCode,usfmText) => {
+    console.log("save button clicked")
+    console.log(bookCode)
+    console.log(usfmText)
+  }
+
   const docSetId = 'unfoldingWord/en_ult'
   
   const epiteleteHtml = useDeepCompareMemo(() => (
@@ -94,13 +99,11 @@ function Component () {
   const [ep, setEp] = useState(new EpiteleteHtml({ proskomma, docSetId, options: { historySize: 100 } }))
   const verbose = true
 
-  const onSave = async (arg) => {
-    console.log("save button clicked", arg)
-    console.log("Trying readUsfm() method")
-    const usfmText = await ep.readUsfm('TIT')
+  const onSave = async (bookCode,usfmText) => {
+    console.log("save button clicked")
     console.log("USFM:",usfmText)
     console.log("Trying getDocument() method")
-    const perfJson = await ep.getDocument('TIT')
+    const perfJson = await ep.getDocument(bookCode)
     console.log("PERF:",JSON.stringify(perfJson, null, 4))
   }
   

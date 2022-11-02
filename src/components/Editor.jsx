@@ -2,30 +2,33 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import { useDeepCompareCallback, useDeepCompareEffect } from "use-deep-compare";
 import isEqual from 'lodash.isequal';
+import { HtmlPerfEditor } from "@xelah/type-perf-html";
+import EpiteleteHtml from "epitelete-html";
 
 import { Skeleton, Stack } from "@mui/material";
 import useEditorState from "../hooks/useEditorState";
 import Section from "./Section";
 import SectionHeading from "./SectionHeading";
 import SectionBody from "./SectionBody";
-import { HtmlPerfEditor } from "@xelah/type-perf-html";
-import EpiteleteHtml from "epitelete-html";
+import Buttons from "./Buttons"
+
+// import GraftPopup from "./GraftPopup"
 
 export default function Editor( props) {
   const { onSave, epiteleteHtml, bookId, verbose } = props;
-  // const [graftSequenceId, setGraftSequenceId] = useState();
+  // const [graftSequenceId, setGraftSequenceId] = useState(null);
 
   // const [isSaving, startSaving] = useTransition();
   const [htmlPerf, setHtmlPerf] = useState();
 
   const bookCode = bookId.toUpperCase()
+  const [lastSaveHistoryLength, setLastSaveHistoryLength] = useState(epiteleteHtml?.history[bookCode] ? epiteleteHtml.history[bookCode].stack.length : 1)
   const readOptions = { readPipeline: "stripAlignment" }
 
   useDeepCompareEffect(() => {
     if (epiteleteHtml) {
       //        epiteleteHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
       epiteleteHtml.readHtml( bookCode, readOptions ).then( /*async*/ (_htmlPerf) => {
-        // console.log(await epiteleteHtml.getPipelineData(bookCode))
         setHtmlPerf(_htmlPerf);
       });
     }
@@ -37,8 +40,6 @@ export default function Editor( props) {
 
     const saveNow = async () => {
       const writeOptions = { writePipeline: "mergeAlignment", readPipeline: "stripAlignment" }
-      console.log(await epiteleteHtml.getPipelineData(bookCode))
-      // const writeOptions = {}
       const newHtmlPerf = await epiteleteHtml.writeHtml( bookCode, sequenceId, _htmlPerf, writeOptions);
       if (verbose) console.log({ info: "Saved sequenceId", bookCode, sequenceId });
   
@@ -47,6 +48,12 @@ export default function Editor( props) {
     };
     saveNow()
   }, [htmlPerf, bookCode]);
+
+  const handleSave = async () => {
+    setLastSaveHistoryLength( epiteleteHtml?.history[bookCode].stack.length )
+    const usfmText = await epiteleteHtml.readUsfm( bookCode )
+    onSave && onSave(bookCode,usfmText)
+  }
 
   const undo = async () => {
     const newPerfHtml = await epiteleteHtml.undoHtml(bookCode, readOptions);
@@ -60,6 +67,7 @@ export default function Editor( props) {
 
   const canUndo = epiteleteHtml?.canUndo(bookCode);
   const canRedo = epiteleteHtml?.canRedo(bookCode);
+  const canSave = epiteleteHtml?.history[bookCode] && epiteleteHtml.history[bookCode].stack.length > lastSaveHistoryLength;
 
   // const handlers = {
   //   onBlockClick: ({ element }) => {
@@ -77,13 +85,10 @@ export default function Editor( props) {
       preview,
     },
     actions: {
-      setSectionable,
-      setBlockable,
-      setEditable,
-      setPreview,
       setSequenceIds,
       addSequenceId,
       setSequenceId,
+      setToggles,
     },
   } = useEditorState({sequenceIds: [htmlPerf?.mainSequenceId], ...props});
 
@@ -132,32 +137,28 @@ export default function Editor( props) {
     verbose,
   };
 
+
   // const graftProps = {
   //   ...htmlEditorProps,
   //   options: { ...options, sectionable: false },
   //   sequenceIds: [graftSequenceId],
+  //   graftSequenceId,
+  //   setGraftSequenceId,
   // };
 
-  const onSectionable = () => { setSectionable(!sectionable); };
-  const onBlockable = () => { setBlockable(!blockable); };
-  const onEditable = () => { setEditable(!editable); };
-  const onPreview = () => { setPreview(!preview); };
-
-  const onSaveClick = async () => {
-    const usfmText = await epiteleteHtml.readUsfm( bookCode )
-    onSave && onSave(bookCode,usfmText)
+  const buttonsProps = {
+    sectionable,
+    blockable,
+    editable,
+    preview,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    setToggles,
+    canSave,
+    onSave:handleSave,
   }
-  const buttons = (
-    <div className="buttons">
-      <button style={(sectionable ? {borderStyle: 'inset'} : {})} onClick={onSectionable}>Sectionable</button>
-      <button style={(blockable ? {borderStyle: 'inset'} : {})} onClick={onBlockable}>Blockable</button>
-      <button style={(editable ? {borderStyle: 'inset'} : {})} onClick={onEditable}>Editable</button>
-      <button style={(preview ? {borderStyle: 'inset'} : {})} onClick={onPreview}>Preview</button>
-      <button style={(canUndo ? {borderStyle: 'inset'} : {})} onClick={undo}>Undo</button>
-      <button style={(canRedo ? {borderStyle: 'inset'} : {})} onClick={redo}>Redo</button>
-      <button  onClick={onSaveClick}>Save</button>
-    </div>
-  );
 
   // const graftSequenceEditor = (
   //   <>
@@ -168,10 +169,9 @@ export default function Editor( props) {
 
   return (
     <div key="1" className="Editor" style={style}>
-      {buttons}
-      <h2>Main Sequence Editor</h2>
+      <Buttons {...buttonsProps} />
       {sequenceId && htmlPerf ? <HtmlPerfEditor {...htmlEditorProps} /> : skeleton}
-      {buttons}
+      {/* <GraftPopup {...graftProps} /> */}
     </div>
   );
 };
