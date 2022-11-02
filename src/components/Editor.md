@@ -17,8 +17,7 @@ const urlDocument = ({ selectors, bookCode, bookName, filename, ...props}) => ({
 });
 
 const documents = [
-  urlDocument({ bookCode: 'mat', filename: '41-MAT.usfm', selectors: { org: 'unfoldingWord', lang: 'en', abbr: 'ult' } }),
-  urlDocument({ bookCode: 'luk', filename: '43-LUK.usfm', selectors: { org: 'unfoldingWord', lang: 'en', abbr: 'ult' } }),
+  urlDocument({ bookCode: 'tit', filename: '57-TIT.usfm', selectors: { org: 'unfoldingWord', lang: 'en', abbr: 'ult' } }),
 ];
 
 function Component () {
@@ -49,25 +48,15 @@ function Component () {
   
   const editorProps = {
     epiteleteHtml,
-    bookId: 'mat',
+    bookId: 'tit',
     onSave,
     verbose
   }
-
-  const editorPropsLuk = {
-    epiteleteHtml,
-    bookId: 'luk',
-    onSave,
-    verbose
-  }
-  
+ 
   return (
     <>
     <div key="1">
-      { ready ? <Editor key="1" {...editorProps} /> : 'Loading...'}
-    </div>
-    <div key="2">
-      { ready ? <Editor key="2" {...editorPropsLuk} /> : 'Loading...'}
+      { ready ? <Editor key="1" {...editorProps} /> : 'Loading...' }
     </div>
     </>
   );

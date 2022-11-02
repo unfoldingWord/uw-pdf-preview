@@ -24,8 +24,12 @@ function Component () {
     } 
   }
 
-  const onSave = (arg) => console.log("save button clicked", arg)
- 
+  const onSave = (bookCode,usfmText) => {
+    console.log("save button clicked")
+    console.log(bookCode)
+    console.log(usfmText)
+  }
+
   const editorProps = {
     onSave,
     docSetId,

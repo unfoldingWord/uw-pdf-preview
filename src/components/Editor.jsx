@@ -19,11 +19,13 @@ export default function Editor( props) {
   const [htmlPerf, setHtmlPerf] = useState();
 
   const bookCode = bookId.toUpperCase()
+  const readOptions = { readPipeline: "stripAlignment" }
 
   useDeepCompareEffect(() => {
     if (epiteleteHtml) {
       //        epiteleteHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
-      epiteleteHtml.readHtml( bookCode, { readPipeline: "stripAlignment" } ).then((_htmlPerf) => {
+      epiteleteHtml.readHtml( bookCode, readOptions ).then( /*async*/ (_htmlPerf) => {
+        // console.log(await epiteleteHtml.getPipelineData(bookCode))
         setHtmlPerf(_htmlPerf);
       });
     }
@@ -34,14 +36,12 @@ export default function Editor( props) {
     if (perfChanged) setHtmlPerf(_htmlPerf);
 
     const saveNow = async () => {
-      const newHtmlPerf = await epiteleteHtml.writeHtml( 
-        bookCode, 
-        sequenceId, 
-        _htmlPerf, 
-        { writePipeline: "mergeAlignment", readPipeline: "stripAlignment" } 
-      );
+      const writeOptions = { writePipeline: "mergeAlignment", readPipeline: "stripAlignment" }
+      console.log(await epiteleteHtml.getPipelineData(bookCode))
+      // const writeOptions = {}
+      const newHtmlPerf = await epiteleteHtml.writeHtml( bookCode, sequenceId, _htmlPerf, writeOptions);
       if (verbose) console.log({ info: "Saved sequenceId", bookCode, sequenceId });
-
+  
       const perfChanged = !isEqual(htmlPerf, newHtmlPerf);
       if (perfChanged) setHtmlPerf(newHtmlPerf);
     };
@@ -49,17 +49,17 @@ export default function Editor( props) {
   }, [htmlPerf, bookCode]);
 
   const undo = async () => {
-    const newPerfHtml = await epiteleteHtml.undoHtml(bookCode);
+    const newPerfHtml = await epiteleteHtml.undoHtml(bookCode, readOptions);
     setHtmlPerf(newPerfHtml);
   };
 
   const redo = async () => {
-    const newPerfHtml = await epiteleteHtml.redoHtml(bookCode);
+    const newPerfHtml = await epiteleteHtml.redoHtml(bookCode, readOptions);
     setHtmlPerf(newPerfHtml);
   };
 
-  const canUndo = epiteleteHtml.canUndo(bookCode);
-  const canRedo = epiteleteHtml.canRedo(bookCode);
+  const canUndo = epiteleteHtml?.canUndo(bookCode);
+  const canRedo = epiteleteHtml?.canRedo(bookCode);
 
   // const handlers = {
   //   onBlockClick: ({ element }) => {
@@ -143,6 +143,10 @@ export default function Editor( props) {
   const onEditable = () => { setEditable(!editable); };
   const onPreview = () => { setPreview(!preview); };
 
+  const onSaveClick = async () => {
+    const usfmText = await epiteleteHtml.readUsfm( bookCode )
+    onSave && onSave(bookCode,usfmText)
+  }
   const buttons = (
     <div className="buttons">
       <button style={(sectionable ? {borderStyle: 'inset'} : {})} onClick={onSectionable}>Sectionable</button>
@@ -151,7 +155,7 @@ export default function Editor( props) {
       <button style={(preview ? {borderStyle: 'inset'} : {})} onClick={onPreview}>Preview</button>
       <button style={(canUndo ? {borderStyle: 'inset'} : {})} onClick={undo}>Undo</button>
       <button style={(canRedo ? {borderStyle: 'inset'} : {})} onClick={redo}>Redo</button>
-      <button  onClick={onSave}>Save</button>
+      <button  onClick={onSaveClick}>Save</button>
     </div>
   );
 
