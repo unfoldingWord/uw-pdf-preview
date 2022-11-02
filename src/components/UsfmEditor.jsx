@@ -21,5 +21,5 @@ UsfmEditor.propTypes = {
   onSave: PropTypes.func,
   docSetId: PropTypes.string,
   usfmText: PropTypes.string,
-  bookId: PropTypes.any, 
+  bookId: PropTypes.string, 
 };

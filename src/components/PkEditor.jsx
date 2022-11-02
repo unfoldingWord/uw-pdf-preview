@@ -32,5 +32,5 @@ export default function PkEditor( props) {
 PkEditor.propTypes = {
   onSave: PropTypes.func,
   docSetId: PropTypes.string,
-  bookId: PropTypes.any, 
+  bookId: PropTypes.string, 
 };
