@@ -5,9 +5,7 @@ import Editor from "./Editor";
 import { LocalPkCacheContext } from '../context/LocalPkCacheContext'
 
 export default function PkEditor( props) {
-  const { docSetId, bcvQuery } = props;
-  const books = Object.keys(bcvQuery?.book)
-  const bookId = books[0] ?? ""
+  const { docSetId, bookId } = props;
   const [epiteleteHtml, setEpiteleteHtml] = useState();
 
   const {
@@ -34,5 +32,5 @@ export default function PkEditor( props) {
 PkEditor.propTypes = {
   onSave: PropTypes.func,
   docSetId: PropTypes.string,
-  bcvQuery: PropTypes.any, 
+  bookId: PropTypes.any, 
 };

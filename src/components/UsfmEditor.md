@@ -15,16 +15,7 @@ function Component () {
   const bookId = 'TIT'
   const docSetBookId = `${docSetId}/${bookId}`
 
-  const chapter = 1
-  const bcvQuery = { 
-    book: { 
-      [bookId.toLowerCase()]: {
-        ch: { [chapter] : {} } 
-      } 
-    } 
-  }
-
-  const onSave = (bookCode,usfmText) => {
+const onSave = (bookCode,usfmText) => {
     console.log("save button clicked")
     console.log(bookCode)
     console.log(usfmText)
@@ -34,7 +25,7 @@ function Component () {
     onSave,
     docSetId,
     usfmText,
-    bcvQuery,
+    bookId,
   }
   
   return (

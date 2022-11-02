@@ -15,15 +15,6 @@ function Component () {
   const bookId = 'TIT'
   const docSetBookId = `${docSetId}/${bookId}`
 
-  const chapter = 1
-  const bcvQuery = { 
-    book: { 
-      [bookId.toLowerCase()]: {
-        ch: { [chapter] : {} } 
-      } 
-    } 
-  }
-
   const { loading, done } = usePkImport( docSetBookId, usfmText ) 
 
   const onSave = (bookCode,usfmText) => {
@@ -35,7 +26,7 @@ function Component () {
   const editorProps = {
     onSave,
     docSetId,
-    bcvQuery,
+    bookId,
   }
   
   return (
