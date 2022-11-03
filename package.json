@@ -1,7 +1,7 @@
 {
   "name": "uw-editor",
   "description": "A React Component Library for editing PERF.",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "homepage": "https://uw-editor.netlify.app/",
   "license": "MIT",
   "repository": {
@@ -9,8 +9,19 @@
     "url": "https://github.com/unfoldingword/uw-editor"
   },
   "private": false,
+  "peerDependencies": {
+    "@mui/material": "^5.10.12",
+    "@mui/styles": "^5.10.10",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "translation-helps-rcl": "3.3.4-rc.2"
+  },
   "dependencies": {
-    "@xelah/type-perf-html": "^1.0.0"
+    "@xelah/type-perf-html": "^1.0.0",
+    "epitelete-html": "^0.2.10",
+    "proskomma-react-hooks": "^2.4.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
@@ -32,7 +43,6 @@
     "babel-loader": "^8.2.2",
     "crypto-browserify": "^3.12.0",
     "css-loader": "^6.7.1",
-    "epitelete-html": "0.2.9",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-import": "^2.26.0",
@@ -42,11 +52,10 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-test-selectors": "^2.0.3",
     "prettier": "^2.5.1",
-    "proskomma-react-hooks": "^2.4.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^5.0.1",
-    "react-styleguidist": "^11.2.0",
+    "react-styleguidist": "^13.0.0",
     "styled-components": "^5.2.1",
     "webpack-cli": "^4.10.0",
     "translation-helps-rcl": "3.3.4-rc.3"
@@ -75,15 +84,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "peerDependencies": {
-    "@mui/material": "^5.x",
-    "@mui/styles": "^5.x",
-    "@mui/icons-material": "^5.x",
-    "epitelete-html": "^0.2.9",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "translation-helps-rcl": "^3.x"
   },
   "main": "dist/index.js",
   "files": [

@@ -22,12 +22,13 @@ export default function Editor( props) {
   const [htmlPerf, setHtmlPerf] = useState();
 
   const bookCode = bookId.toUpperCase()
-  const [lastSaveHistoryLength, setLastSaveHistoryLength] = useState(epiteleteHtml.history[bookCode] ? epiteleteHtml.history[bookCode].stack.length : 1)
+  const [lastSaveHistoryLength, setLastSaveHistoryLength] = useState(epiteleteHtml?.history[bookCode] ? epiteleteHtml.history[bookCode].stack.length : 1)
+  const readOptions = { readPipeline: "stripAlignment" }
 
   useDeepCompareEffect(() => {
     if (epiteleteHtml) {
       //        epiteleteHtml.readHtml(bookCode,{},bcvQuery).then((_htmlPerf) => {
-      epiteleteHtml.readHtml(bookCode).then((_htmlPerf) => {
+      epiteleteHtml.readHtml( bookCode, readOptions ).then((_htmlPerf) => {
         setHtmlPerf(_htmlPerf);
       });
     }
@@ -38,7 +39,8 @@ export default function Editor( props) {
     if (perfChanged) setHtmlPerf(_htmlPerf);
 
     const saveNow = async () => {
-      const newHtmlPerf = await epiteleteHtml.writeHtml( bookCode, sequenceId, _htmlPerf );
+      const writeOptions = { writePipeline: "mergeAlignment", readPipeline: "stripAlignment" }
+      const newHtmlPerf = await epiteleteHtml.writeHtml( bookCode, sequenceId, _htmlPerf, writeOptions);
       if (verbose) console.log({ info: "Saved sequenceId", bookCode, sequenceId });
 
       const perfChanged = !isEqual(htmlPerf, newHtmlPerf);
@@ -47,24 +49,25 @@ export default function Editor( props) {
     saveNow()
   }, [htmlPerf, bookCode]);
 
-  const handleSave = () => {
-    onSave();
-    setLastSaveHistoryLength( epiteleteHtml.history[bookCode].stack.length )
+  const handleSave = async () => {
+    setLastSaveHistoryLength( epiteleteHtml?.history[bookCode].stack.length )
+    const usfmText = await epiteleteHtml.readUsfm( bookCode )
+    onSave && onSave(bookCode,usfmText)
   }
 
   const undo = async () => {
-    const newPerfHtml = await epiteleteHtml.undoHtml(bookCode);
+    const newPerfHtml = await epiteleteHtml.undoHtml(bookCode, readOptions);
     setHtmlPerf(newPerfHtml);
   };
 
   const redo = async () => {
-    const newPerfHtml = await epiteleteHtml.redoHtml(bookCode);
+    const newPerfHtml = await epiteleteHtml.redoHtml(bookCode, readOptions);
     setHtmlPerf(newPerfHtml);
   };
 
-  const canUndo = epiteleteHtml.canUndo(bookCode);
-  const canRedo = epiteleteHtml.canRedo(bookCode);
-  const canSave = epiteleteHtml.history[bookCode] && epiteleteHtml.history[bookCode].stack.length > lastSaveHistoryLength;
+  const canUndo = epiteleteHtml?.canUndo(bookCode);
+  const canRedo = epiteleteHtml?.canRedo(bookCode);
+  const canSave = epiteleteHtml?.history[bookCode] && epiteleteHtml.history[bookCode].stack.length > lastSaveHistoryLength;
 
   // const handlers = {
   //   onBlockClick: ({ element }) => {
@@ -142,13 +145,6 @@ export default function Editor( props) {
   //   graftSequenceId,
   //   setGraftSequenceId,
   // };
-
-  // const graftProps = {
-  //   ...htmlEditorProps,
-  //   options: { ...options, sectionable: false },
-  //   sequenceIds: [graftSequenceId],
-  // };
-
 
   const buttonsProps = {
     sectionable,

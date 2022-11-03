@@ -5,7 +5,6 @@ The Editor expects input of a EpiteleteHtml object.
 ```js
 import { useState, useEffect } from 'react';
 
-import __htmlPerf from '../data/tit-fra_fraLSG-perf.html.json';
 import EpiteleteHtml from "epitelete-html";
 import { useProskomma, useImport } from "proskomma-react-hooks";
 import { useDeepCompareCallback, useDeepCompareEffect, useDeepCompareMemo } from "use-deep-compare";
@@ -18,8 +17,7 @@ const urlDocument = ({ selectors, bookCode, bookName, filename, ...props}) => ({
 });
 
 const documents = [
-  urlDocument({ bookCode: 'mat', filename: '41-MAT.usfm', selectors: { org: 'unfoldingWord', lang: 'en', abbr: 'ult' } }),
-  urlDocument({ bookCode: 'luk', filename: '43-LUK.usfm', selectors: { org: 'unfoldingWord', lang: 'en', abbr: 'ult' } }),
+  urlDocument({ bookCode: 'tit', filename: '57-TIT.usfm', selectors: { org: 'unfoldingWord', lang: 'en', abbr: 'ult' } }),
 ];
 
 function Component () {
@@ -41,7 +39,12 @@ function Component () {
   
   const ready = !importing && done
   
-  const onSave = (arg) => console.log("save button clicked", arg)
+  const onSave = (bookCode,usfmText) => {
+    console.log("save button clicked")
+    console.log(bookCode)
+    console.log(usfmText)
+  }
+
   const docSetId = 'unfoldingWord/en_ult'
   
   const epiteleteHtml = useDeepCompareMemo(() => (
@@ -50,25 +53,15 @@ function Component () {
   
   const editorProps = {
     epiteleteHtml,
-    bookId: 'mat',
+    bookId: 'tit',
     onSave,
     verbose
   }
-
-  const editorPropsLuk = {
-    epiteleteHtml,
-    bookId: 'luk',
-    onSave,
-    verbose
-  }
-  
+ 
   return (
     <>
     <div key="1">
-      { ready ? <Editor key="1" {...editorProps} /> : 'Loading...'}
-    </div>
-    <div key="2">
-      { ready ? <Editor key="2" {...editorPropsLuk} /> : 'Loading...'}
+      { ready ? <Editor key="1" {...editorProps} /> : 'Loading...' }
     </div>
     </>
   );
@@ -106,13 +99,11 @@ function Component () {
   const [ep, setEp] = useState(new EpiteleteHtml({ proskomma, docSetId, options: { historySize: 100 } }))
   const verbose = true
 
-  const onSave = async (arg) => {
-    console.log("save button clicked", arg)
-    console.log("Trying readUsfm() method")
-    const usfmText = await ep.readUsfm('TIT')
+  const onSave = async (bookCode,usfmText) => {
+    console.log("save button clicked")
     console.log("USFM:",usfmText)
     console.log("Trying getDocument() method")
-    const perfJson = await ep.getDocument('TIT')
+    const perfJson = await ep.getDocument(bookCode)
     console.log("PERF:",JSON.stringify(perfJson, null, 4))
   }
   
