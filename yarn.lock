@@ -4911,7 +4911,7 @@ envinfo@^7.7.3:
   resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-7.8.1.tgz#06377e3e5f4d379fea7ac592d5ad8927e0c4d475"
   integrity sha512-/o+BXHmB7ocbHEAs6F2EnG0ogybVVUdkRunTT2glZU9XAaGmhqskrvKwqXuDfNjEO0LZKWdejEEpnq8aM0tOaw==
 
-epitelete-html@0.2.10:
+epitelete-html@^0.2.10:
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/epitelete-html/-/epitelete-html-0.2.10.tgz#aa7ec43f91ba7ccc9cbd058b9b2f9d53a2511bbd"
   integrity sha512-aYWTrojMwm1746y/vkEjihKJNR/a1tpZ2kjg6ubOUVBIEqpSlMMjvdrnsgFoMFeSzM/4X3PKE8P6YEdMWrbuFw==
