@@ -15,7 +15,7 @@ export default function PkCacheProvider({ children }) {
 
   const pkHook = useProskomma({verbose: true})
 
-  const [printPreview, setPrintPreview] = useState(false)
+  // const [printPreview, setPrintPreview] = useState(false)
   const [html, setHtml] = useState(null);
 
   useEffect(() => {

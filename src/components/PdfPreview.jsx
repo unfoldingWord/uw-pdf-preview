@@ -1,53 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
-import PropTypes from 'prop-types';
 // import { useDeepCompareCallback, useDeepCompareEffect } from "use-deep-compare";
 // import isEqual from 'lodash.isequal';
 // import {
 //   useCatalog, useRenderPreview,
 // } from 'proskomma-react-hooks'
-
-export default function PdfPreview( props) {
-  // const { bookId, verbose } = props;
-
-  // const pdfPreviewProps = {
-  //   // handlers,
-  //   decorators: {},
-  //   verbose,
-  // };
-
-  const {
-    html, // dummy output (currently <html><head>...</head><body>...</body></html>)
-    running, // dummy timer for simulating false, true, false.
-    progress, // dummy 0...50...100
-    errors, // caught and floated up
-  } = useRenderPreview({
-    ...proskommaHook,
-    docSetId: catalogHook?.catalog?.docSets?.[0]?.id, // docset provides language and docSetId to potentially query, and build structure
-    textDirection: language?.direction || 'ltr',
-    structure, // eventually generate structure from catalog
-    i18n,
-    language: languageId,
-    ready: submitPreview && i18n?.title, // bool to allow render to run, don't run until true and all content is present
-    // pagedJS, // is this a link or a local file?
-    // css, //
-    // htmlFragment, // show full html or what's in the body
-    verbose,
-  })
-
-  return (
-    <div key="1" className="PdfPreview">
-      This is a test
-    </div>
-  );
-};
-
-PdfPreview.propTypes = {
-  onSave: PropTypes.func,
-  bookId: PropTypes.string,
-  verbose: PropTypes.bool,
-};
-
-
 
 /* eslint-disable react/prop-types */
 import {
@@ -57,17 +14,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import Pageview from '@material-ui/icons/Pageview'
 import { Tooltip, IconButton } from '@material-ui/core'
 
-import { AuthContext } from '@context/AuthContext'
-import {
-  doFetch,
-  isServerDisconnected,
-} from '@utils/network'
-import { ALL_BIBLE_BOOKS, isNT } from '@common/BooksOfTheBible'
 import {
   useProskomma, useImport, useCatalog, useRenderPreview,
 } from 'proskomma-react-hooks'
-import { getLanguage } from '@common/languages'
-import { getBuildId } from '@utils/build'
 
 const i18n_default = {
   // coverAlt: "Cover",
@@ -97,16 +46,12 @@ function PreviewContent({
   active, server, owner, repo, bookId, filename, onRefresh,
   onAction, languageId, typeName,
 }) {
-  const { state: { authentication } } = useContext(AuthContext)
 
   const [submitPreview, setSubmitPreview] = useState(false)
   const [documents, setDocuments] = useState([])
   const [i18n, setI18n] = useState(i18n_default)
 
-  const language = useMemo(() => {
-    const lang_ = getLanguage({ languageId })
-    return lang_
-  }, [languageId])
+  const language = "eng"
 
   const verbose = true
   const proskommaHook = useProskomma({ verbose })
@@ -126,11 +71,13 @@ function PreviewContent({
 
   const structure = {}
 
-  if ( isNT(bookId) ) {
-    structure.nt = [bookId]
+  // if (isNT(bookId)) {
+  structure.nt = [bookId]
+  /*
   } else {
     structure.ot = [bookId]
   }
+  */
 
   const {
     html, // dummy output (currently <html><head>...</head><body>...</body></html>)
@@ -171,15 +118,12 @@ function PreviewContent({
     }
 
     async function doSubmitPreview() {
-      let errorCode
-      let _errorMessage = null
       let content = null
-
-      try {
-        //onAction && onAction(RETRIEVING)
 
       if (content) {
         // create the preview
+
+        const bookName = "TIT"
 
         const languageName = language.localized || language.languageName || language.languageId
         const title = `${owner} - ${languageName} ${typeName} - ${bookName}`
@@ -189,20 +133,22 @@ function PreviewContent({
           title,
         }
         setI18n(i18n)
-        setDocuments(docs)
+        // setDocuments(docs)
       }
 
       // setSubmitPreview(false)
     }
     doSubmitPreview()
-  }, [submitPreview, server, owner, repo, filename, bookId, onRefresh])
+  }, [submitPreview, server, owner, repo, filename, bookId, onRefresh, language.localized, language.languageName, language.languageId, typeName])
 
   const classes = useStyles({ active })
   return (
     <Tooltip title={ `Preview Content` }>
-      <IconButton className={classes.iconButton}
+      <IconButton 
+        className={classes.iconButton}
         onClick={() => setSubmitPreview(true)}
-        aria-label="Preview Content">
+        aria-label="Preview Content"
+      >
         <Pageview />
       </IconButton>
     </Tooltip>

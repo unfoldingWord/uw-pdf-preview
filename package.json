@@ -8,16 +8,18 @@
     "type": "git",
     "url": "https://github.com/unfoldingword/uw-pdf-preview"
   },
-  "private": false,
   "peerDependencies": {
-    "@mui/material": "^5.10.12",
-    "@mui/styles": "^5.10.10",
     "@mui/icons-material": "^5.10.9",
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
+    "@mui/material": "^5.10.12",
+    "@mui/styled-engine": "*",
+    "@mui/styles": "^5.10.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "epitelete-html": "^0.2.18",
     "proskomma-react-hooks": "^2.4.0"
   },
   "devDependencies": {
@@ -30,10 +32,10 @@
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "^7.12.10",
     "@babel/runtime": "7.13.8",
+    "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.8.7",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@mui/styles": "^5.8.7",
-    "@mui/icons-material": "^5.10.9",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -90,7 +92,7 @@
   },
   "browser": {
     "fs": false,
-    "path": false,
-    "os": false
+    "os": false,
+    "path": false
   }
 }
